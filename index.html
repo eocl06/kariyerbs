@@ -1,4 +1,6 @@
-<!DOCTYPE html><html lang="tr-TR"><head>
+<!DOCTYPE html>
+<html lang="tr-TR">
+<head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Bu 8 Mart’ta Konuşulmayanların Adını Koyalım</title>
@@ -13,12 +15,10 @@
     --accent: #8A2BE2; /* Ana Mor */
     --accent-bg: #E6E6FA; /* Açık Lavanta Moru */
     --font: 'Roboto', sans-serif;
-    --carousel-accent-light: #E6E6FA; /* Carousel için açık arka plan */
-    --carousel-text: #1f2937;
-    --carousel-radius: 12px;
-    --correct-answer-bg: #d4edda; /* Açık Yeşil - Doğru Cevap */
+    --carousel-radius: 12px; /* Genel carousel köşe yarıçapı */
+    --correct-answer-bg: #d4edda;
     --correct-answer-border: #c3e6cb;
-    --incorrect-answer-bg: #f8d7da; /* Açık Kırmızı - Yanlış Cevap */
+    --incorrect-answer-bg: #f8d7da;
     --incorrect-answer-border: #f5c6cb;
   }
   * {
@@ -39,7 +39,7 @@
     left: 0;
     height: 4px;
     width: 0;
-    background: linear-gradient(to right, #D8BFD8, var(--accent)); /* Mor Gradient */
+    background: linear-gradient(to right, #D8BFD8, var(--accent));
     border-radius: 2px;
     box-shadow: 0 0 6px rgba(138, 43, 226, 0.3);
     z-index: 1001;
@@ -64,7 +64,7 @@
     font-family: 'Playfair Display', serif;
     color: var(--text);
   }
-  h2 {
+  h2 { /* Genel H2 stili */
     font-size: 1.5rem;
     margin-top: 48px;
     font-family: 'Playfair Display', serif;
@@ -81,283 +81,316 @@
   }
   .highlighted-benefit {
     background-color: var(--accent-bg);
-    color: #6A0DAD; /* Vurgu arka planı üzerinde koyu vurgu rengi */
+    color: #6A0DAD;
     padding: 2px 5px;
     border-radius: 4px;
     font-weight: 600;
   }
+  ul { margin-bottom: 20px; padding-left: 20px; color: var(--muted); font-family: 'Inter', sans-serif; }
+  ul li { margin-bottom: 8px; line-height: 1.6; }
+  .article-meta { font-family: 'Inter', sans-serif; font-size: 0.9rem; color: var(--muted); margin-bottom: 24px; }
+  .article-meta .author { font-weight: 500; color: var(--text); }
+  .image-block { margin: 32px 0; }
+  .image-block img { width: 100%; border-radius: 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06); }
+  .caption { text-align: center; font-size: 0.875rem; color: #9ca3af; margin-top: 8px; font-family: 'Inter', sans-serif; }
+  .button { background-color: var(--accent); color: white; padding: 12px 32px; border-radius: 10px; font-size: 0.95rem; font-weight: 500; text-decoration: none; box-shadow: 0 2px 6px rgba(138, 43, 226, 0.2); transition: all 0.3s ease; display: inline-block; }
+  .button:hover { background-color: #7B1FA2; }
 
-  ul {
-    margin-bottom: 20px;
-    padding-left: 20px;
-    color: var(--muted);
-    font-family: 'Inter', sans-serif;
-  }
-  ul li {
-    margin-bottom: 8px;
-    line-height: 1.6;
-  }
-
-  .article-meta {
-    font-family: 'Inter', sans-serif;
-    font-size: 0.9rem;
-    color: var(--muted);
-    margin-bottom: 24px;
-  }
-  .article-meta .author {
-    font-weight: 500;
-    color: var(--text);
-  }
-
-  .image-block {
-    margin: 32px 0;
-  }
-  .image-block img {
+  /* --- YENİ CAROUSEL İÇİN GENEL STİLLER (Kullanıcının sağladığı) --- */
+  .carousel { /* Bu class .stat-carousel-container içindeki #statsCarousel div'ine uygulanıyor */
+    position: relative;
     width: 100%;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+    border-radius: var(--carousel-radius); /* Ana carousel için radius */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    -webkit-tap-highlight-color: transparent; /* Dokunmatik cihazlarda dokunma vurgusunu kaldırır */
   }
-  .caption {
-    text-align: center;
-    font-size: 0.875rem;
-    color: #9ca3af;
-    margin-top: 8px;
-    font-family: 'Inter', sans-serif;
+  .carousel-inner {
+    display: flex;
+    /* JS transform ile kaydıracağı için snap'e gerek yok */
+    user-select: none; /* Kaydırma sırasında metin seçimini engelle */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    cursor: grab; /* Kaydırılabilir olduğunu belirtir */
   }
-  .button {
-    background-color: var(--accent);
-    color: white;
-    padding: 12px 32px;
-    border-radius: 10px;
-    font-size: 0.95rem;
-    font-weight: 500;
-    text-decoration: none;
-    box-shadow: 0 2px 6px rgba(138, 43, 226, 0.2); /* Mor gölge */
-    transition: all 0.3s ease;
-    display: inline-block;
+  .carousel-inner.is-dragging {
+    cursor: grabbing; /* Sürükleme sırasında cursor değişimi */
   }
-  .button:hover {
-    background-color: #7B1FA2; /* Koyu mor */
-  }
-
-  /* ANKET STİLLERİ */
-  .survey-container {
-    background-color: #f8f9fa;
-    border: 1px solid #e9ecef;
-    border-radius: var(--carousel-radius);
-    padding: 35px 25px 30px 25px;
-    margin: 48px 0;
-    text-align: center;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
-    position: relative;
-  }
-  .survey-sponsor {
-    position: absolute;
-    top: 0px;
-    right: 22px;
-  }
-  .survey-sponsor img {
-    max-width: 70px; /* Logo boyutu ayarlandı */
-    height: auto;
-    display: block;
-    border-radius: 8px;
-  }
-  .survey-container h3 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.7rem;
-    color: var(--text);
-    font-weight: 700;
-    position: relative;
-    padding-bottom: 12px;
-    margin-top: 20px;
-    margin-bottom: 25px;
-  }
-  .survey-container h3::after {
-    content: '';
-    display: block;
-    width: 50px;
-    height: 3px;
-    background-color: var(--accent);
-    border-radius: 1.5px;
-    margin: 12px auto 0 auto; /* H3'ün altına kaydırıldı */
-  }
-  .survey-question-area {
-    margin-bottom: 30px;
-  }
-  .survey-question {
-    font-family: 'Inter', sans-serif;
-    font-size: 1.05rem;
-    color: var(--muted);
-    margin-bottom: 20px;
-    line-height: 1.65;
-    min-height: 50px; /* Soru metni alanı için */
-  }
-  .survey-options {
-    list-style: none;
-    padding: 0;
-    margin: 0 auto;
-    max-width: 520px;
+  .carousel-slide { /* Genel slide yapısı, stat-slide buna eklenir */
+    min-width: 100%; /* Her slayt tam genişlik kaplar */
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
   }
-  .survey-options li button {
-    display: block;
+  .carousel-controls {
+    position: absolute;
+    top: 50%;
     width: 100%;
-    padding: 15px 20px;
-    background-color: #fff;
-    border: 1px solid #dee2e6;
-    border-radius: 10px;
-    color: var(--text);
-    font-family: var(--font);
-    font-size: 0.95rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.15s ease, box-shadow 0.15s ease;
-    text-align: center;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+    padding: 0 10px;
+    pointer-events: none; /* Normalde butonlara tıklanamaz */
+    z-index: 3;
+    opacity: 0; /* Normalde görünmez */
+    transition: opacity 0.3s ease-in-out;
   }
-  .survey-options li button:hover:not(:disabled) {
-    background-color: var(--accent-bg);
-    border-color: var(--accent);
-    transform: translateY(-2px) scale(1.01);
-    box-shadow: 0 5px 10px rgba(0,0,0,0.06);
+  @media (hover: hover) and (pointer: fine) { /* Sadece fare ile hover destekleyen cihazlarda */
+    .carousel:hover .carousel-controls {
+      opacity: 1; /* Fare üzerine gelince butonlar görünür */
+    }
   }
-  .survey-options li button.selected.correct {
-    background-color: var(--correct-answer-bg);
-    border-color: var(--correct-answer-border);
-    color: #155724;
+  .carousel-controls.mobile-visible { /* JS tarafından dokunmatik cihazlarda eklenecek class */
+    opacity: 1;
+    pointer-events: auto; /* Butonlar tıklanabilir olur */
   }
-  .survey-options li button.selected.incorrect {
-    background-color: var(--incorrect-answer-bg);
-    border-color: var(--incorrect-answer-border);
-    color: #721c24;
+  .carousel-controls.mobile-visible button {
+    pointer-events: all; /* Butonların kendisi de tıklanabilir olur */
   }
-  .survey-options li button.correct-option:not(.selected) { /* Cevap gösterilirken doğru olan ama seçilmeyen */
-    background-color: #e2f0d9;
-    border-color: #d6e9c6;
-  }
-  .survey-options li button:disabled { /* Genel pasif stil, seçilmiş olsun veya olmasın */
-    opacity: 0.8;
-    cursor: default;
-  }
-  .survey-options li button:disabled:not(.selected):not(.correct-option) { /* Cevap gösterildikten sonra diğer pasif seçenekler */
-     opacity: 0.6;
-     background-color: #f0f0f0;
-     border-color: #e0e0e0;
-     transform: none;
-     box-shadow: 0 1px 2px rgba(0,0,0,0.02);
-  }
-  .survey-feedback-message {
-    margin-top: 15px;
-    font-size: 0.9rem;
-    color: var(--muted);
-    min-height: 40px; /* Geri bildirim alanı için */
-    font-weight: 500;
-  }
-  .survey-navigation {
-    margin-top: 20px;
-  }
-  .survey-navigation button {
-    background-color: var(--accent);
-    color: white;
-    padding: 10px 25px;
-    border-radius: 8px;
-    font-size: 0.9rem;
-    font-weight: 500;
+  .carousel-controls button {
+    pointer-events: all; /* Başlangıçta hover için tıklanabilir olmalı */
+    background: rgba(0, 0, 0, 0.2);
+    color: rgba(255, 255, 255, 0.9);
     border: none;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-  }
-  .survey-navigation button:hover {
-    background-color: #7B1FA2; /* Koyu mor */
-  }
-  .survey-navigation button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-  }
-  .survey-progress {
-    font-size: 0.85rem;
-    color: var(--muted);
-    margin-bottom: 15px;
-  }
-  .survey-final-score {
-    font-family: 'Inter', sans-serif;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
     font-size: 1.1rem;
-    color: var(--text);
-    margin-top: 20px;
-    font-weight: 600;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+    box-shadow: none;
   }
-
-  /* AKICI CTA BÖLÜMÜ STİLLERİ */
-  .integrated-cta-section {
+  .carousel-controls button:hover {
+    background: rgba(0, 0, 0, 0.4);
+    color: #fff;
+    transform: scale(1.05);
+  }
+  .carousel-dots {
+    position: absolute;
+    bottom: 5px; /* Carousel'a daha yakın ve soft görünüm */
+    left: 0;
+    right: 0;
     text-align: center;
-    margin: 40px auto 20px auto;
-    padding: 25px 0;
-    position: relative;
+    z-index: 2;
+    padding: 5px 0;
   }
-  .integrated-cta-section::before {
-    content: '';
-    display: block;
-    width: 70px;
-    height: 2.5px;
-    background-color: var(--accent);
-    opacity: 0.6;
-    margin: 0 auto 30px auto;
-    border-radius: 1px;
+  .carousel-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    margin: 0 4px;
+    background-color: rgba(0, 0, 0, 0.35); /* Soft, şeffafımsı gri */
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+    padding: 0;
+    transition: background-color 0.3s ease, transform 0.2s ease;
   }
-  .integrated-cta-section .cta-final-text {
-    font-family: 'Inter', sans-serif;
-    font-size: 1.18rem;
-    line-height: 1.85;
-    color: var(--text);
-    margin-bottom: 30px;
-    max-width: 620px;
-    margin-left: auto;
-    margin-right: auto;
+  .carousel-dot:hover {
+    background-color: rgba(0, 0, 0, 0.5);
+    transform: scale(1.1);
   }
-  .integrated-cta-section .cta-final-text strong {
-    color: var(--accent); /* CTA metnindeki strong da yeni renkte */
-    font-weight: 600;
-  }
-  .integrated-cta-section .button {
-    padding: 14px 40px;
-    font-size: 1.05rem;
-  }
-  .source-info {
-    font-size: 0.8rem;
-    color: var(--muted);
-    margin-top: 20px;
-    line-height: 1.5;
-  }
-  .source-info a {
-    color: var(--accent); /* Kaynak linkleri de yeni renkte */
-    text-decoration: none;
-  }
-  .source-info a:hover {
-    text-decoration: underline;
-  }
-  .main-logo {
-    border-radius: 8px; /* Yuvarlatılmış hatlar için ana logo */
+  .carousel-dot.active {
+    background-color: var(--accent); /* Aktif nokta için ana mor renk */
+    transform: scale(1.2);
   }
 
-  /* Responsive adjustments */
+  /* İSTATİSTİK CAROUSEL'İNE ÖZEL STİLLER (Kullanıcının sağladığı) */
+  .stat-carousel-container {
+  margin: 40px 0;
+  padding: 25px 15px; /* İç boşluklar logoyu etkilememesi için ayarlanabilir */
+  background-color: var(--accent-bg);
+  border-radius: 16px;
+  text-align: center; /* Başlık için merkezleme devam etsin */
+  position: relative; /* Mutlak konumlandırılacak logo için gerekli */
+}
+
+.stat-carousel-logo {
+  position: absolute; /* Akıştan çıkarıp konumlandırmak için */
+  top: 20px; /* Üstten boşluk (padding'e göre ayarlanabilir) */
+  right: 20px; /* Sağdan boşluk (padding'e göre ayarlanabilir) */
+  max-width: 60px; /* İstediğiniz boyut */
+  height: auto;
+  /* margin-bottom: 15px; Artık gerekli değil, akıştan çıktı */
+  border-radius: 8px;
+  z-index: 5; /* Diğer elemanların (örn: başlık) altında kalmaması için */
+}
+
+.stat-carousel-title {
+  font-family: var(--font), sans-serif;
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: var(--text);
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 20px;
+  position: relative; /* ::after için */
+  padding-bottom: 8px;
+  /* Başlığın logo ile çakışmaması için gerekirse margin-top veya padding-top ayarlanabilir.
+     Ancak logo küçük olduğu için genellikle sorun olmaz. */
+}
+
+.stat-carousel-title::after {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 2px;
+  background-color: var(--accent);
+  opacity: 0.7;
+  margin: 8px auto 0 auto;
+  border-radius: 1px;
+}
+  }
+  #statsCarousel { /* Carousel'in kendisine (ID ile) özel stil */
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1); /* Daha yumuşak gölge */
+    border-radius: 10px; /* İç carousel için farklı radius */
+  }
+  #statsCarousel .carousel-slide.stat-slide { /* İstatistik slaytları */
+    background-color: #fff; /* Slaytların arka planı beyaz */
+    height: 200px; /* Slayt yüksekliği */
+    padding: 20px;
+    /* Genel .carousel-slide zaten flex ayarlarını yapıyor */
+  }
+  .stat-slide-content { /* Slayt içeriği */
+    text-align: center;
+    color: var(--text);
+    max-width: 95%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+  .stat-slide .stat-slide-number { /* Büyük istatistik sayısı */
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: var(--accent); /* Mor renk */
+    margin-bottom: 10px;
+    line-height: 1;
+  }
+  .stat-slide .stat-slide-number.small { /* Karşılaştırma için daha küçük sayı */
+    font-size: 2rem;
+    margin-bottom: 5px;
+  }
+  .stat-slide .stat-slide-text { /* İstatistik açıklaması */
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 1.45;
+    margin-bottom: 5px;
+  }
+  .stat-slide .stat-slide-text.mini { /* Karşılaştırma için daha küçük metin */
+    font-size: 0.8rem;
+    line-height: 1.3;
+  }
+  .stat-slide .stat-slide-year {
+    display: block;
+    font-size: 0.8rem;
+    color: #999;
+    margin-top: -2px;
+  }
+  .stat-slide .stat-slide-note {
+    display: block;
+    font-size: 0.8rem;
+    color: #777;
+    margin-top: 8px;
+    font-style: italic;
+  }
+  .stat-slide-comparison .stat-slide-content { /* Karşılaştırma slaytı */
+    flex-direction: row;
+    align-items: center;
+  }
+  .stat-slide-comparison .comparison-pair {
+    flex: 1;
+    padding: 0 5px;
+  }
+  .stat-slide-comparison .comparison-vs {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    color: var(--accent); /* Mor VS */
+    font-weight: 700;
+    margin: 0 8px;
+  }
+  #statsCarousel .carousel-controls button { /* İstatistik carousel butonları için daha koyu arkaplan */
+    background: rgba(0, 0, 0, 0.3);
+  }
+  #statsCarousel .carousel-controls button:hover {
+    background: rgba(0, 0, 0, 0.5);
+  }
+  /* --- YENİ CAROUSEL İÇİN STİLLER SON --- */
+
+  /* ANKET STİLLERİ (Kullanıcının sağladığı, bazı visibility/opacity ayarları eklendi) */
+  .survey-container { background-color: #f8f9fa; border: 1px solid #e9ecef; border-radius: var(--carousel-radius); padding: 35px 25px 30px 25px; margin: 48px 0; text-align: center; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06); position: relative; }
+  .survey-sponsor { position: absolute; top: 18px; right: 22px; }
+  .survey-sponsor img { max-width: 70px; height: auto; display: block; border-radius: 8px;}
+  .survey-container h3 { font-family: 'Playfair Display', serif; font-size: 1.7rem; color: var(--text); font-weight: 700; position: relative; padding-bottom: 12px; margin-top: 0; margin-bottom: 25px; }
+  .survey-container h3::after { content: ''; display: block; width: 50px; height: 3px; background-color: var(--accent); border-radius: 1.5px; margin: 12px auto 0 auto; }
+  .survey-question-area { margin-bottom: 30px; }
+  .survey-question { font-family: 'Inter', sans-serif; font-size: 1.05rem; color: var(--muted); margin-bottom: 20px; line-height: 1.65; min-height: 50px; }
+  .survey-options { list-style: none; padding: 0; margin: 0 auto; max-width: 520px; display: flex; flex-direction: column; gap: 10px; }
+  .survey-options li button { display: block; width: 100%; padding: 15px 20px; background-color: #fff; border: 1px solid #dee2e6; border-radius: 10px; color: var(--text); font-family: var(--font); font-size: 0.95rem; font-weight: 500; cursor: pointer; transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.15s ease, box-shadow 0.15s ease; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.03); }
+  .survey-options li button:hover:not(:disabled) { background-color: var(--accent-bg); border-color: var(--accent); transform: translateY(-2px) scale(1.01); box-shadow: 0 5px 10px rgba(0,0,0,0.06); }
+  .survey-options li button.selected.correct { background-color: var(--correct-answer-bg); border-color: var(--correct-answer-border); color: #155724; }
+  .survey-options li button.selected.incorrect { background-color: var(--incorrect-answer-bg); border-color: var(--incorrect-answer-border); color: #721c24; }
+  .survey-options li button.correct-option:not(.selected) { background-color: #e2f0d9; border-color: #d6e9c6; }
+  .survey-options li button:disabled { opacity: 0.8; cursor: default; }
+  .survey-options li button:disabled:not(.selected):not(.correct-option) { opacity: 0.6; background-color: #f0f0f0; border-color: #e0e0e0; transform: none; box-shadow: 0 1px 2px rgba(0,0,0,0.02); }
+  .survey-feedback-message { margin-top: 15px; font-size: 0.9rem; color: var(--muted); min-height: 40px; font-weight: 500; transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out; /* Geçiş eklendi */ }
+  .survey-navigation { margin-top: 20px; }
+  .survey-navigation button { background-color: var(--accent); color: white; padding: 10px 25px; border-radius: 8px; font-size: 0.9rem; font-weight: 500; border: none; cursor: pointer; transition: background-color 0.2s ease, opacity 0.3s ease-in-out, visibility 0.3s ease-in-out; /* Geçiş eklendi */ }
+  .survey-navigation button:hover { background-color: #7B1FA2; }
+  .survey-navigation button:disabled { background-color: #ccc; cursor: not-allowed; }
+  .survey-progress { font-size: 0.85rem; color: var(--muted); margin-bottom: 15px; }
+  .survey-final-score { font-family: 'Inter', sans-serif; font-size: 1.1rem; color: var(--text); margin-top: 20px; font-weight: 600; }
+
+  .integrated-cta-section { text-align: center; margin: 40px auto 20px auto; padding: 25px 0; position: relative; }
+  .integrated-cta-section::before { content: ''; display: block; width: 70px; height: 2.5px; background-color: var(--accent); opacity: 0.6; margin: 0 auto 30px auto; border-radius: 1px; }
+  .integrated-cta-section .cta-final-text { font-family: 'Inter', sans-serif; font-size: 1.18rem; line-height: 1.85; color: var(--text); margin-bottom: 30px; max-width: 620px; margin-left: auto; margin-right: auto; }
+  .integrated-cta-section .cta-final-text strong { color: var(--accent); font-weight: 600; }
+  .integrated-cta-section .button { padding: 14px 40px; font-size: 1.05rem; }
+  .source-info { font-size: 0.8rem; color: var(--muted); margin-top: 20px; line-height: 1.5; }
+  .source-info a { color: var(--accent); text-decoration: none; }
+  .source-info a:hover { text-decoration: underline; }
+  .main-logo { border-radius: 8px; }
+
   @media (max-width: 768px) {
     h1 { font-size: 1.8rem; }
     h2 { font-size: 1.3rem; }
+    /* İstatistik Carousel Responsive */
+    .stat-carousel-title { font-size: 1.15rem; }
+    #statsCarousel .carousel-slide.stat-slide { height: 220px; }
+    .stat-slide .stat-slide-number { font-size: 2.2rem; }
+    .stat-slide .stat-slide-number.small { font-size: 1.8rem; }
+    .stat-slide .stat-slide-text { font-size: 0.85rem; }
+    .carousel-controls { padding: 0 5px; } /* Butonlar için daha az padding */
+    .carousel-controls button { width: 32px; height: 32px; font-size: 1rem; }
+    .carousel-dots { bottom: 2px; }
+    .carousel-dot { width: 7px; height: 7px; margin: 0 3px; }
+
+
     .container { padding: 16px 16px 24px; }
     .survey-container { padding: 25px 15px 20px 15px; }
     .survey-sponsor img { max-width: 50px; top:10px; right: 10px;}
   }
-  </style></head><body>
+  </style>
+</head>
+<body>
   <div class="progress-bar" id="progressBar"></div>
   <div class="container">
-    <h1>Bu 8 Mart’ta konuşulmayanların adını koyalım</h1>
+    <h1>Bu 8 Mart’ta Konuşulmayanların Adını Koyalım</h1>
     <div style="display: flex; align-items: center; gap: 8px; margin: 8px 0 16px 0;">
       <div style="max-width: 120px; max-height: 50px; display: flex; align-items: center;">
         <img src="https://static.bundle.app/studio/d2123e0e-e627-407c-b6f8-10a3e54fa649/c0119827-7d74-4334-8b00-2a81d0adb17e.png" alt="Kariyer.net Logo" style="max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 8px;" class="main-logo">
       </div>
-      <span style="font-size: 0.88rem; color: #4b5563; font-weight: 500;">sponsorluğunda</span>
+      <span style="font-size: 0.88rem; color: #4b5563; font-weight: 500;">Kariyer.net sponsorluğunda</span>
     </div>
 
     <div class="article-meta">
@@ -365,7 +398,7 @@
     </div>
 
     <p>Bugün 8 Mart Dünya Kadınlar Günü. 1857 yılında ABD’deki işçi kadınların meşalesini yaktığı bugün, 1921 yılından beri tüm dünyada kadınların eşitsizliklere hep beraber ses çıkardıkları, hak ve özgürlük mücadelelerini taçlandırdıkları bir gün olarak kutlanıyor.</p>
-    <p>Kadınlar toplumsal, ekonomik, kültürel ve siyasi alanlarda cinsiyet eşitsizliğine karşı mücadele verirken <strong>iş hayatındaki cinsiyet eşitsizliği</strong>, bu mücadelede önemli bir odak noktası olmaya devam ediyor.</p>
+    <p>Kadınlar toplumsal, ekonomik, kültürel ve siyasi alanlarda cinsiyet eşitsizliğine karşı mücadele verirken iş hayatındaki cinsiyet eşitsizliği, bu mücadelede önemli bir odak noktası olmaya devam ediyor.</p>
 
     <div class="image-block">
       <img src="https://static.bundle.app/studio/0417e36d-7f85-4288-9988-1de3e307da45/0b844692-5350-46ed-84b9-319f467f5751.png" alt="Dünya Kadınlar Gününde İş Hayatında Eşitlik">
@@ -378,26 +411,62 @@
     <h2>Mücadele kelimelerde saklı</h2>
     <p>Aynı pozisyona başvuran bir erkek ve bir kadın düşünün. İşten beklentileri, görüşmeler sırasında cevapladıkları sorular, kariyer planlarını çizerken temel aldıkları ölçütler ne kadar benzer?</p>
     <p>Kadınların medeni durumu, çocuk sahibi olup olmaması, gelecek planları gibi özel hayatına dair konular iş başvurularında belirleyici rol oynarken erkekler çoğunlukla bu sorularla karşılaşmıyor.</p>
-    <p>Erkeklerle aynı yeteneklere ve potansiyellere sahip olsalar da kadınlar genellikle <strong>daha düşük maaşlarla çalışıyor, liderlik pozisyonlarında daha az yer alıyor</strong> ve işyerinde cinsiyet temelli ayrımcılığa uğruyorlar.</p>
+    <p>Erkeklerle aynı yeteneklere ve potansiyellere sahip olsalar da kadınlar genellikle daha düşük maaşlarla çalışıyor, liderlik pozisyonlarında daha az yer alıyor ve işyerinde cinsiyet temelli ayrımcılığa uğruyorlar.</p>
     <p>Bu eşitsizlik, işgücüne katılımın önündeki engellerden, terfi fırsatlarına; iş yerindeki güvenlikten, ücret farklarına kadar birçok alanda kendini gösteriyor.</p>
 
-    <h2>Kadınların maaş beklentileri %19 daha az</h2>
-    <p>Kariyer.net’in araştırmasına göre, Türkiye’de kadınların %36'sı kendilerine sunulan kariyer fırsatlarının erkeklere sunulanlardan daha az olduğunu düşünüyor.</p>
-    <p>2024 yılında Kariyer.net havuzundaki 1,6 milyon iş başvurusuna dayanarak yapılan bir analiz, kadınların ortalama maaş beklentisinin <strong>erkeklere kıyasla %10 daha az</strong> olduğunu gösterdi. 2025 yılında 10 milyondan fazla maaş beklentisini temel alan bu analiz, beklentiler arasındaki farkın daha da artarak %19’a yükseldiğini ortaya çıkardı.</p>
-
-    <div class="image-block">
-      <img src="https://static.bundle.app/studio/0417e36d-7f85-4288-9988-1de3e307da45/c3affc30-bbf7-4f43-8986-5c845b226051.png" alt="Maaş Beklentilerinde Cinsiyet Farkı">
-      <div class="caption">Araştırmalar, maaş beklentilerindeki cinsiyet farkını ortaya koyuyor.</div>
+    <div class="stat-carousel-container">
+        <img src="https://static.bundle.app/studio/d2123e0e-e627-407c-b6f8-10a3e54fa649/c0119827-7d74-4334-8b00-2a81d0adb17e.png" alt="Kariyer.net Logo" class="stat-carousel-logo">
+        <h3 class="stat-carousel-title">İş Hayatında Cinsiyet Eşitsizliği: Rakamlarla</h3>
+        <div class="carousel" id="statsCarousel">
+            <div class="carousel-inner">
+                <div class="carousel-slide stat-slide">
+                    <div class="stat-slide-content">
+                        <p class="stat-slide-number">%19</p>
+                        <p class="stat-slide-text">Kadınların ortalama maaş beklentisi, erkeklere kıyasla %19 daha az. <span class="stat-slide-year">(2025)</span></p>
+                        <p class="stat-slide-note">Bu fark 2024'te %10 idi.</p>
+                    </div>
+                </div>
+                <div class="carousel-slide stat-slide">
+                    <div class="stat-slide-content">
+                        <p class="stat-slide-number">%36</p>
+                        <p class="stat-slide-text">Kadın, kendisine sunulan kariyer fırsatlarının erkeklere göre daha az olduğunu düşünüyor.</p>
+                    </div>
+                </div>
+                <div class="carousel-slide stat-slide stat-slide-comparison">
+                     <div class="stat-slide-content">
+                        <div class="comparison-pair">
+                            <p class="stat-slide-number small">%58</p>
+                            <p class="stat-slide-text mini">Kadın, daha az maaş aldığını düşünüyor.</p>
+                        </div>
+                        <p class="comparison-vs">VS</p>
+                        <div class="comparison-pair">
+                            <p class="stat-slide-number small">%80</p>
+                            <p class="stat-slide-text mini">Erkek, kadınların az maaş aldığına katılmıyor.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-slide stat-slide">
+                    <div class="stat-slide-content">
+                        <p class="stat-slide-number">%21</p>
+                        <p class="stat-slide-text">Erkek, iş yerinde kadınlara bazı konuları "daha fazla açıklama" gereği duyduğunu belirtiyor.</p>
+                    </div>
+                </div>
+                <div class="carousel-slide stat-slide">
+                    <div class="stat-slide-content">
+                        <p class="stat-slide-number">%38</p>
+                        <p class="stat-slide-text">Kadın, iş hayatında "duygusal", "fazla tepki veren" gibi etiketlere maruz kaldığını ifade ediyor.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-controls">
+                <button class="prev" aria-label="Önceki İstatistik">←</button>
+                <button class="next" aria-label="Sonraki İstatistik">→</button>
+            </div>
+            <div class="carousel-dots"></div>
+        </div>
     </div>
-
-    <h2>Erkeklerin %80’i kadınların daha az maaş aldığını düşünmüyor</h2>
-    <p>Erkeklerin aynı ofisi, odayı, fabrikayı paylaştıkları kadınların yeterliliklerine dair tutumları da iş hayatındaki cinsiyet eşitsizliğini yeniden ürettiklerini gösteriyor.</p>
-    <p>Kadınların <strong>%58'i</strong> erkeklerden daha az maaş aldığını düşünürken, erkeklerin %80'i buna katılmıyor.</p>
-    <p>Erkeklerin %21'i ise iş yerinde kadınların bazı konseptleri bilmediğini düşünerek onlara daha fazla açıklama yapmaya gerek duyduğunu belirtiyor.</p>
-    <p>Kadınların <strong>%38'i</strong> iş hayatında "duygusal, fazla tepki veren, sinirli" gibi etiketlemelere maruz kaldıklarını ifade ediyor.</p>
-
     <h2>Adını beraber koyalım</h2>
-    <p>Kariyer.net, bu verilerden yola çıkarak iş hayatında cinsiyet eşitsizliğini ortadan kaldırmaya yönelik bir kampanya başlattı. <strong>“Adını Koyalım”</strong> kampanyası, kadınların iş hayatında bazen adını koyamadıkları ayrımcılıkları beraber adlandırabilmek ve bunlara karşı mücadele etmek için farkındalık oluşturuyor.</p>
+    <p>Kariyer.net, bu verilerden yola çıkarak iş hayatında cinsiyet eşitsizliğini ortadan kaldırmaya yönelik bir kampanya başlattı. “Adını Koyalım” kampanyası, kadınların iş hayatında bazen adını koyamadıkları ayrımcılıkları beraber adlandırabilmek ve bunlara karşı mücadele etmek için farkındalık oluşturuyor.</p>
 
     <div class="survey-container" id="awarenessSurvey">
       <div class="survey-sponsor">
@@ -407,19 +476,18 @@
       <div class="survey-progress" id="surveyProgressText">Soru 1 / 3</div>
       <div class="survey-question-area">
           <p class="survey-question" id="surveyQuestionText"></p>
-          <ul class="survey-options" id="surveyOptionsList">
-              </ul>
+          <ul class="survey-options" id="surveyOptionsList"></ul>
       </div>
-      <div class="survey-feedback-message" id="surveyFeedbackText" style="display: none;"></div>
+      <div class="survey-feedback-message" id="surveyFeedbackText" style="visibility: hidden; opacity: 0;"></div>
       <div class="survey-navigation">
-          <button type="button" id="nextQuestionButton" style="display: none;">Sonraki Soru</button>
+          <button type="button" id="nextQuestionButton" style="visibility: hidden; opacity: 0;">Sonraki Soru</button>
       </div>
       <div class="survey-final-score" id="surveyFinalScore" style="display: none;"></div>
     </div>
-    
+   
     <p id="surveyBasedDynamicText">İş hayatında karşılaşılan bu gibi durumları tanımak ve adlandırmak, onlarla mücadele etmenin ilk adımıdır. Farkındalığınızı test ederek bu konudaki bilginizi ölçebilirsiniz.</p>
 
-    <p>Türkçede henüz tam bir karşılığı bulunmayan “mansplaining”, “gaslighting” ve “only woman in the room” gibi kavramların karşılıkları için <strong>oylama süreci internet üzerinden devam ediyor.</strong></p>
+    <p>Türkçede henüz tam bir karşılığı bulunmayan “mansplaining”, “gaslighting” ve “only woman in the room” gibi kavramların karşılıkları için oylama süreci internet üzerinden devam ediyor.</p>
 
     <h2>Yazı sponsorumuz Kariyer.net’ten!</h2>
     <p>Kariyer.net, <strong class="highlighted-benefit">iş hayatında cinsiyet eşitliği</strong> için farkındalık yaratmayı amaçlıyor. 'Adını Koyalım' kampanyası ile <strong class="highlighted-benefit">ayrımcılık türlerine Türkçe karşılıklar</strong> bularak mücadelenin önemli bir parçası oluyor. <strong class="highlighted-benefit">Daha bilinçli bir toplum</strong> ve <strong class="highlighted-benefit">eşitlikçi bir iş dünyası</strong> için Kariyer.net yanımızda! Unutmayın, <strong class="highlighted-benefit">bilgi güçtür</strong> ve bu terimleri öğrenmek, daha adil bir çalışma ortamı yaratmaya katkıda bulunur.</p>
@@ -434,7 +502,8 @@
       <p class="cta-final-text">İş hayatındaki cinsiyet eşitsizliğine karşı farkındalığınızı artırmak ve 'Adını Koyalım' kampanyasına destek olmak için <strong>Kariyer.net</strong>'in sunduğu kaynakları keşfedin. Daha adil bir gelecek için harekete geçin!</p>
       <a class="button" href="https://tr.kariyer.net/adinikoyalim/" target="_blank">Hemen Keşfet</a>
     </div>
-  </div><script>
+  </div>
+<script>
   // Progress Bar Script
   const progressBar = document.getElementById('progressBar');
   window.addEventListener('scroll', () => {
@@ -444,7 +513,146 @@
     progressBar.style.width = `${scrollPercent}%`;
   });
 
-  // AWARENESS SURVEY SCRIPT
+  // CAROUSEL SCRIPT (Kullanıcının sağladığı)
+  function initializeCarousel(carouselId) {
+    const carousel = document.getElementById(carouselId);
+    if (!carousel) return;
+
+    const carouselInner = carousel.querySelector('.carousel-inner');
+    const carouselControls = carousel.querySelector('.carousel-controls');
+    const carouselSlides = carousel.querySelectorAll('.carousel-slide'); 
+    const totalCarouselSlides = carouselSlides.length;
+    if (totalCarouselSlides === 0) return;
+
+    let currentCarouselIndex = 0;
+    const dotsContainer = carousel.querySelector('.carousel-dots');
+    let dots = [];
+    let isDragging = false;
+    let touchStartX = 0;
+    let currentTranslate = 0;
+    let startTranslate = 0;
+    const swipeThreshold = 50;
+    const slideWidth = () => carousel.offsetWidth; // Her zaman carousel'in güncel genişliğini alır
+    const isTouchDevice = () => ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+
+    function updateDots() {
+      if (!dotsContainer) return;
+      dots.forEach((dot, idx) => {
+        dot.classList.remove('active');
+        if (idx === currentCarouselIndex) {
+          dot.classList.add('active');
+        }
+      });
+    }
+
+    function setTransform(translateX) {
+      carouselInner.style.transform = `translateX(${translateX}px)`;
+    }
+
+    function showCarouselSlide(index, animate = true) {
+      if (index >= totalCarouselSlides) index = 0;
+      else if (index < 0) index = totalCarouselSlides - 1;
+      currentCarouselIndex = index;
+      const targetTranslate = -currentCarouselIndex * slideWidth();
+      carouselInner.style.transition = animate ? 'transform 0.4s cubic-bezier(0.25, 0.1, 0.25, 1)' : 'none';
+      setTransform(targetTranslate);
+      currentTranslate = targetTranslate; // currentTranslate'i güncelle
+      updateDots();
+    }
+
+    const prevButton = carousel.querySelector('.prev');
+    const nextButton = carousel.querySelector('.next');
+
+    if (prevButton && nextButton) {
+      prevButton.addEventListener('click', () => {
+        showCarouselSlide(currentCarouselIndex - 1);
+      });
+      nextButton.addEventListener('click', () => {
+        showCarouselSlide(currentCarouselIndex + 1);
+      });
+    }
+
+    if (dotsContainer) {
+      dotsContainer.innerHTML = ''; // Eski noktaları temizle
+      dots = []; // Diziyi sıfırla
+      for (let i = 0; i < totalCarouselSlides; i++) {
+        const dot = document.createElement('button');
+        dot.classList.add('carousel-dot');
+        dot.setAttribute('aria-label', `${i + 1}. slayda git`);
+        dot.addEventListener('click', () => {
+          showCarouselSlide(i);
+        });
+        dotsContainer.appendChild(dot);
+        dots.push(dot);
+      }
+    }
+
+    if (carouselInner) {
+      carouselInner.addEventListener('touchstart', (event) => {
+        if (event.touches.length > 1 || isDragging) return;
+        isDragging = true;
+        touchStartX = event.touches[0].clientX;
+        startTranslate = currentTranslate; // Dokunma başladığında mevcut konumu al
+        carouselInner.style.transition = 'none'; // Sürüklerken animasyonu kaldır
+        carouselInner.classList.add('is-dragging');
+      }, { passive: true });
+
+      carouselInner.addEventListener('touchmove', (event) => {
+        if (!isDragging || event.touches.length > 1) return;
+        const touchCurrentX = event.touches[0].clientX;
+        const deltaX = touchCurrentX - touchStartX;
+        currentTranslate = startTranslate + deltaX; // Başlangıç konumuna göre kaydır
+        setTransform(currentTranslate);
+      }, { passive: true });
+
+      const handleTouchEnd = () => {
+        if (!isDragging) return;
+        isDragging = false;
+        carouselInner.classList.remove('is-dragging');
+        carouselInner.style.transition = 'transform 0.4s cubic-bezier(0.25, 0.1, 0.25, 1)'; // Animasyonu geri ekle
+        
+        // Kaydırma mesafesine göre slayt geçişi
+        const swipeDistance = currentTranslate - startTranslate;
+        
+        if (Math.abs(swipeDistance) > swipeThreshold) { // Eşiği geçtiyse slayt değiştir
+          showCarouselSlide(swipeDistance < 0 ? currentCarouselIndex + 1 : currentCarouselIndex - 1);
+        } else { // Eşiği geçmediyse mevcut slayta geri dön
+          showCarouselSlide(currentCarouselIndex); 
+        }
+      };
+      carouselInner.addEventListener('touchend', handleTouchEnd);
+      carouselInner.addEventListener('touchcancel', handleTouchEnd); // İptal durumunda da aynı mantık
+    }
+    
+    // Dokunmatik cihazlarda kontrollere tıklandığında görünür yap
+    if (isTouchDevice() && carouselControls) {
+        let controlsVisibleOnTouch = false; // Bayrak
+        const showControlsOnTouch = () => {
+            if(!controlsVisibleOnTouch && carouselControls) { // Sadece bir kere ekle
+                carouselControls.classList.add('mobile-visible');
+                // controlsVisibleOnTouch = true; // Eğer sadece ilk tıklamada eklensin isteniyorsa
+            }
+        };
+        // Hem carousel'e hem de kontrollere tıklanınca tetiklenebilir
+        // Ancak sadece carousel'e tıklanınca daha iyi olabilir.
+        carousel.addEventListener('click', showControlsOnTouch); 
+    }
+
+    showCarouselSlide(0, false); // Başlangıçta ilk slaytı animasyonsuz göster
+
+    // Pencere yeniden boyutlandırıldığında carousel'i yeniden ayarla
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            // Slayt genişliğini ve pozisyonunu yeniden hesapla
+            showCarouselSlide(currentCarouselIndex, false); // Animasyonsuz ayarla
+        }, 250);
+    });
+  }
+
+
+  // AWARENESS SURVEY SCRIPT (Kullanıcının sağladığı, feedback/button visibility güncellenmiş)
   const surveyContainer = document.getElementById('awarenessSurvey');
   const surveyQuestionTextEl = document.getElementById('surveyQuestionText');
   const surveyOptionsListEl = document.getElementById('surveyOptionsList');
@@ -454,136 +662,57 @@
   const surveyFinalScoreEl = document.getElementById('surveyFinalScore');
   const surveyBasedDynamicTextEl = document.getElementById('surveyBasedDynamicText');
 
-  const surveyQuestions = [
-    {
-        question: "Bir kişinin kendi akıl sağlığından veya gerçeklik algısından şüphe etmesini sağlamak amacıyla manipüle edilmesi anlamına gelen terim hangisidir?",
-        options: ["Mansplaining", "Gaslighting", "Burnout Gap", "Cam Tavan"],
-        correctAnswer: "Gaslighting",
-        feedback: {
-            correct: "Doğru! Gaslighting, mağdurun kendi hafızasına, algısına ve akıl sağlığına olan güvenini sarsmayı hedefler.",
-            incorrect: "Yanlış cevap. Bu tanım Gaslighting'e aittir. Gaslighting, mağdurun kendi hafızasına, algısına ve akıl sağlığına olan güvenini sarsmayı hedefler."
-        }
-    },
-    {
-        question: "Bir erkeğin, genellikle bir kadına, zaten bildiği bir konuyu küçümseyici veya ataerkil bir tavırla açıklaması durumuna ne denir?",
-        options: ["Gaslighting", "Cam Tavan", "Mansplaining", "Empati Yoksunluğu"],
-        correctAnswer: "Mansplaining",
-        feedback: {
-            correct: "Kesinlikle doğru! Mansplaining, genellikle bilgiçlik taslayan ve cinsiyetçi bir yaklaşımdır.",
-            incorrect: "Tam değil. Bu durum Mansplaining olarak adlandırılır. Genellikle bilgiçlik taslayan ve cinsiyetçi bir yaklaşımdır."
-        }
-    },
-    {
-        question: "Kadınların ve azınlıkların kariyerlerinde yükselmelerini engelleyen görünmez, yapay engelleri ifade eden terim hangisidir?",
-        options: ["Burnout Gap", "Mansplaining", "Toksik Pozitiflik", "Cam Tavan (Glass Ceiling)"],
-        correctAnswer: "Cam Tavan (Glass Ceiling)",
-        feedback: {
-            correct: "Harika! Cam Tavan, yetenek ve başarıya rağmen terfilerin önündeki görünmez engelleri tanımlar.",
-            incorrect: "Doğru değil. Bu kavram Cam Tavan (Glass Ceiling) olarak bilinir ve yetenek ve başarıya rağmen terfilerin önündeki görünmez engelleri tanımlar."
-        }
-    }
-  ];
-
-  let currentQuestionIndex = 0;
-  let score = 0;
-  let answerSelected = false;
+  const surveyQuestions = [ { question: "Bir kişinin kendi akıl sağlığından veya gerçeklik algısından şüphe etmesini sağlamak amacıyla manipüle edilmesi anlamına gelen terim hangisidir?", options: ["Mansplaining", "Gaslighting", "Burnout Gap", "Cam Tavan"], correctAnswer: "Gaslighting", feedback: { correct: "Doğru! Gaslighting, mağdurun kendi hafızasına, algısına ve akıl sağlığına olan güvenini sarsmayı hedefler.", incorrect: "Yanlış cevap. Bu tanım Gaslighting'e aittir." } }, { question: "Bir erkeğin, genellikle bir kadına, zaten bildiği bir konuyu küçümseyici veya ataerkil bir tavırla açıklaması durumuna ne denir?", options: ["Gaslighting", "Cam Tavan", "Mansplaining", "Empati Yoksunluğu"], correctAnswer: "Mansplaining", feedback: { correct: "Kesinlikle doğru! Mansplaining, genellikle bilgiçlik taslayan ve cinsiyetçi bir yaklaşımdır.", incorrect: "Tam değil. Bu durum Mansplaining olarak adlandırılır." } }, { question: "Kadınların ve azınlıkların kariyerlerinde yükselmelerini engelleyen görünmez, yapay engelleri ifade eden terim hangisidir?", options: ["Burnout Gap", "Mansplaining", "Toksik Pozitiflik", "Cam Tavan (Glass Ceiling)"], correctAnswer: "Cam Tavan (Glass Ceiling)", feedback: { correct: "Harika! Cam Tavan, görünmez engelleri tanımlar.", incorrect: "Doğru değil. Bu kavram Cam Tavan (Glass Ceiling) olarak bilinir." } } ];
+  let currentQuestionIndex = 0; let score = 0; let answerSelected = false;
 
   function loadQuestion() {
     answerSelected = false;
     const currentQuestion = surveyQuestions[currentQuestionIndex];
     surveyQuestionTextEl.textContent = currentQuestion.question;
     surveyOptionsListEl.innerHTML = '';
-    currentQuestion.options.forEach(optionText => {
-        const li = document.createElement('li');
-        const button = document.createElement('button');
-        button.type = 'button';
-        button.textContent = optionText;
-        button.addEventListener('click', () => handleSurveyVote(button, optionText));
-        li.appendChild(button);
-        surveyOptionsListEl.appendChild(li);
-    });
-    surveyFeedbackTextEl.style.display = 'none';
-    nextQuestionButtonEl.style.display = 'none';
+    currentQuestion.options.forEach(optionText => { const li = document.createElement('li'); const button = document.createElement('button'); button.type = 'button'; button.textContent = optionText; button.addEventListener('click', () => handleSurveyVote(button, optionText)); li.appendChild(button); surveyOptionsListEl.appendChild(li); });
+    
+    surveyFeedbackTextEl.style.visibility = 'hidden'; surveyFeedbackTextEl.style.opacity = '0';
+    nextQuestionButtonEl.style.visibility = 'hidden'; nextQuestionButtonEl.style.opacity = '0';
+    
     surveyProgressTextEl.textContent = `Soru ${currentQuestionIndex + 1} / ${surveyQuestions.length}`;
   }
-
   function handleSurveyVote(clickedButton, selectedOption) {
-    if (answerSelected) return;
-    answerSelected = true;
-
-    const currentQuestion = surveyQuestions[currentQuestionIndex];
-    const isCorrect = selectedOption === currentQuestion.correctAnswer;
-
+    if (answerSelected) return; answerSelected = true;
+    const currentQuestion = surveyQuestions[currentQuestionIndex]; const isCorrect = selectedOption === currentQuestion.correctAnswer;
     clickedButton.classList.add('selected');
-    if (isCorrect) {
-        score++;
-        clickedButton.classList.add('correct');
-        surveyFeedbackTextEl.textContent = currentQuestion.feedback.correct;
-        surveyFeedbackTextEl.style.color = '#155724'; // Koyu yeşil
-    } else {
-        clickedButton.classList.add('incorrect');
-        surveyFeedbackTextEl.textContent = currentQuestion.feedback.incorrect;
-        surveyFeedbackTextEl.style.color = '#721c24'; // Koyu kırmızı
-        // Highlight correct answer
-        surveyOptionsListEl.querySelectorAll('button').forEach(btn => {
-            if (btn.textContent === currentQuestion.correctAnswer) {
-                btn.classList.add('correct-option');
-            }
-        });
-    }
-
+    if (isCorrect) { score++; clickedButton.classList.add('correct'); surveyFeedbackTextEl.textContent = currentQuestion.feedback.correct; surveyFeedbackTextEl.style.color = '#155724'; }
+    else { clickedButton.classList.add('incorrect'); surveyFeedbackTextEl.textContent = currentQuestion.feedback.incorrect; surveyFeedbackTextEl.style.color = '#721c24'; surveyOptionsListEl.querySelectorAll('button').forEach(btn => { if (btn.textContent === currentQuestion.correctAnswer) { btn.classList.add('correct-option'); } }); }
     surveyOptionsListEl.querySelectorAll('button').forEach(btn => btn.disabled = true);
-    surveyFeedbackTextEl.style.display = 'block';
-    nextQuestionButtonEl.style.display = 'inline-block';
-    if (currentQuestionIndex === surveyQuestions.length - 1) {
-        nextQuestionButtonEl.textContent = 'Sonuçları Gör';
-    } else {
-        nextQuestionButtonEl.textContent = 'Sonraki Soru';
-    }
+    
+    surveyFeedbackTextEl.style.visibility = 'visible'; surveyFeedbackTextEl.style.opacity = '1';
+    nextQuestionButtonEl.style.visibility = 'visible'; nextQuestionButtonEl.style.opacity = '1';
+    
+    if (currentQuestionIndex === surveyQuestions.length - 1) { nextQuestionButtonEl.textContent = 'Sonuçları Gör'; } else { nextQuestionButtonEl.textContent = 'Sonraki Soru'; }
   }
-
-  nextQuestionButtonEl.addEventListener('click', () => {
-    currentQuestionIndex++;
-    if (currentQuestionIndex < surveyQuestions.length) {
-        loadQuestion();
-    } else {
-        showFinalResults();
-    }
-  });
-
+  nextQuestionButtonEl.addEventListener('click', () => { currentQuestionIndex++; if (currentQuestionIndex < surveyQuestions.length) { loadQuestion(); } else { showFinalResults(); } });
   function showFinalResults() {
-    surveyQuestionTextEl.style.display = 'none';
-    surveyOptionsListEl.style.display = 'none';
-    surveyFeedbackTextEl.style.display = 'none';
-    nextQuestionButtonEl.style.display = 'none';
+    surveyQuestionTextEl.style.display = 'none'; surveyOptionsListEl.style.display = 'none';
+    surveyFeedbackTextEl.style.visibility = 'hidden'; surveyFeedbackTextEl.style.opacity = '0';
+    nextQuestionButtonEl.style.visibility = 'hidden'; nextQuestionButtonEl.style.opacity = '0';
     surveyProgressTextEl.style.display = 'none';
-
-    surveyFinalScoreEl.innerHTML = `Test Tamamlandı! ${surveyQuestions.length} sorudan <strong>${score}</strong> tanesini doğru bildiniz.`;
-    surveyFinalScoreEl.style.display = 'block';
-
-    let dynamicText = "";
-    if (score === 3) {
-        dynamicText = "Harika! Bu konularda oldukça bilgilisiiniz. Bilginizle bu mücadelenin bir parçası olmak ve <a href='https://tr.kariyer.net/adinikoyalim/' target='_blank' rel='noopener noreferrer' style='color: var(--accent); font-weight: bold;'>'Adını Koyalım'</a> kampanyasına destek olmak ister misiniz?";
-    } else if (score === 2) {
-        dynamicText = "Çok iyi! Birçok kavramı doğru biliyorsunuz. Farkındalığınızı daha da artırarak ve <a href='https://tr.kariyer.net/adinikoyalim/' target='_blank' rel='noopener noreferrer' style='color: var(--accent); font-weight: bold;'>'Adını Koyalım'</a> kampanyasını inceleyerek bu mücadeleye katkıda bulunabilirsiniz.";
-    } else if (score === 1) {
-        dynamicText = "Fena değil! Bazı kavramları doğru bildiniz. <a href='https://tr.kariyer.net/adinikoyalim/' target='_blank' rel='noopener noreferrer' style='color: var(--accent); font-weight: bold;'>'Adını Koyalım'</a> kampanyası ile bu terimler hakkında daha fazla bilgi edinerek farkındalığınızı artırabilirsiniz.";
-    } else {
-        dynamicText = "Öğrenmek için harika bir fırsat! İş hayatındaki bu önemli kavramları <a href='https://tr.kariyer.net/adinikoyalim/' target='_blank' rel='noopener noreferrer' style='color: var(--accent); font-weight: bold;'>'Adını Koyalım'</a> kampanyasıyla keşfederek farkındalığınızı artırabilirsiniz.";
-    }
-    surveyBasedDynamicTextEl.innerHTML = dynamicText; // Changed to innerHTML to support the link
-    surveyBasedDynamicTextEl.style.fontWeight = 'normal'; // Reset to normal as bold is in link
-    surveyBasedDynamicTextEl.style.color = 'var(--muted)'; // Keep consistent with other p tags
-
+    surveyFinalScoreEl.innerHTML = `Test Tamamlandı! ${surveyQuestions.length} sorudan <strong>${score}</strong> tanesini doğru bildiniz.`; surveyFinalScoreEl.style.display = 'block';
+    let dynamicText = ""; const campaignLink = "<a href='https://tr.kariyer.net/adinikoyalim/' target='_blank' rel='noopener noreferrer' style='color: var(--accent); font-weight: bold;'>'Adını Koyalım'</a>";
+    if (score === 3) { dynamicText = `Vay canına, hepsini bildin! Bu konulara hakim olduğun belli. Bilgini daha ileri taşımak ve ${campaignLink} kampanyasıyla farkındalık hareketine katılmak istersen, tam zamanı!`; }
+    else if (score === 2) { dynamicText = `Harika gidiyorsun, çoğunu doğru bildin! Bu konularda epey bilinçlisin. ${campaignLink} kampanyasına göz atarak hem bilgilerini pekiştirebilir hem de bu önemli mücadeleye destek olabilirsin.`; }
+    else if (score === 1) { dynamicText = `Güzel başlangıç! Birkaç doğru cevabın var. Merakını canlı tut ve ${campaignLink} kampanyasıyla bu kavramların dünyasına daha derin bir dalış yap. Öğrendikçe farkındalığın artacak!`; }
+    else { dynamicText = `Hiç sorun değil, öğrenmek için buradayız! Bu terimler günlük hayatta sıkça karşımıza çıkmasa da etkileri büyük. ${campaignLink} kampanyası, bu kavramları keşfetmek ve farkındalığını artırmak için harika bir kaynak.`; }
+    surveyBasedDynamicTextEl.innerHTML = dynamicText; surveyBasedDynamicTextEl.style.fontWeight = 'normal'; surveyBasedDynamicTextEl.style.color = 'var(--muted)';
   }
+  if (surveyFeedbackTextEl) { surveyFeedbackTextEl.style.visibility = 'hidden'; surveyFeedbackTextEl.style.opacity = '0'; }
+  if (nextQuestionButtonEl) { nextQuestionButtonEl.style.visibility = 'hidden'; nextQuestionButtonEl.style.opacity = '0'; }
+  if (surveyContainer) { loadQuestion(); }
+  else { if(surveyBasedDynamicTextEl) surveyBasedDynamicTextEl.textContent = "İş hayatında karşılaşılan çeşitli durumları tanımak ve adlandırmak, onlarla mücadele etmenin ilk adımıdır."; }
 
-  if (surveyContainer) {
-    loadQuestion();
-  } else {
-    // Fallback for the dynamic text if survey isn't on page for some reason
-    surveyBasedDynamicTextEl.textContent = "İş hayatında karşılaşılan çeşitli durumları tanımak ve adlandırmak, onlarla mücadele etmenin ilk adımıdır.";
-  }
-
+  // DOMContentLoaded içinde Carousel'i başlat
   document.addEventListener('DOMContentLoaded', () => {
-    // Carousel initialization was here, now removed.
-  });</script></body></html>
+    initializeCarousel('statsCarousel');
+  });
+</script>
+</body>
+</html>
