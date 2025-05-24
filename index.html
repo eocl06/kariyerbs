@@ -132,90 +132,156 @@
   #statsCarousel .carousel-controls button { background: rgba(0, 0, 0, 0.3); }
   #statsCarousel .carousel-controls button:hover { background: rgba(0, 0, 0, 0.5); }
 
-  /* ANKET STİLLERİ */
-  .survey-container { background-color: #f8f9fa; border: 1px solid #e9ecef; border-radius: var(--carousel-radius); padding: 35px 25px 30px 25px; margin: 48px 0 24px; text-align: center; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06); position: relative; }
-  .survey-sponsor { position: absolute; top: 18px; right: 22px; }
-  .survey-sponsor img { max-width: 70px; height: auto; display: block; border-radius: 8px;}
-  .survey-container h3 { font-family: 'Playfair Display', serif; font-size: 1.7rem; color: var(--text); font-weight: 700; position: relative; padding-bottom: 12px; margin-top: 32px; margin-bottom: 25px; }
-  .survey-container h3::after { content: ''; display: block; width: 50px; height: 3px; background-color: var(--accent); border-radius: 1.5px; margin: 12px auto 0 auto; }
-  .survey-question-area { margin-bottom: 30px; }
-  .survey-question { font-family: 'Inter', sans-serif; font-size: 1.05rem; color: var(--muted); margin-bottom: 20px; line-height: 1.65; min-height: 50px; }
-  .survey-options { list-style: none; padding: 0; margin: 0 auto; max-width: 520px; display: flex; flex-direction: column; gap: 10px; }
-  .survey-options li button { display: block; width: 100%; padding: 15px 20px; background-color: #fff; border: 1px solid #dee2e6; border-radius: 10px; color: var(--text); font-family: var(--font); font-size: 0.95rem; font-weight: 500; cursor: pointer; transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.15s ease, box-shadow 0.15s ease; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.03); }
-  .survey-options li button:hover:not(:disabled) { background-color: var(--accent-bg); border-color: var(--accent); transform: translateY(-2px) scale(1.01); box-shadow: 0 5px 10px rgba(0,0,0,0.06); }
-  .survey-options li button.selected.correct { background-color: var(--correct-answer-bg); border-color: var(--correct-answer-border); color: #155724; }
-  .survey-options li button.selected.incorrect { background-color: var(--incorrect-answer-bg); border-color: var(--incorrect-answer-border); color: #721c24; }
-  .survey-options li button.correct-option:not(.selected) { background-color: #e2f0d9; border-color: #d6e9c6; }
-  .survey-options li button:disabled { opacity: 0.8; cursor: default; }
-  .survey-options li button:disabled:not(.selected):not(.correct-option) { opacity: 0.6; background-color: #f0f0f0; border-color: #e0e0e0; transform: none; box-shadow: 0 1px 2px rgba(0,0,0,0.02); }
-  
-  .survey-feedback-message {
+  /* ANKET STİLLERİ (KULLANICININ SAĞLADIĞI "DOĞRU" KODDAN ALINAN STİLLER) */
+  .survey-container {
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: var(--carousel-radius);
+    padding: 35px 25px 30px 25px; /* Kaynak koddaki padding */
+    margin: 48px 0 24px; /* Genel sayfa akışına uygun margin (ilk koddan) */
+    text-align: center;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+    position: relative;
+  }
+  .survey-sponsor {
+    position: absolute;
+    top: 18px; /* İlk kodlamadaki gibi hizalama */
+    right: 22px;
+  }
+  .survey-sponsor img {
+    max-width: 70px;
+    height: auto;
+    display: block;
+    border-radius: 8px;
+  }
+  .survey-container h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.7rem;
+    color: var(--text);
+    font-weight: 700;
+    position: relative;
+    padding-bottom: 12px;
+    margin-top: 32px; /* İlk kodlamadaki gibi boşluk */
+    margin-bottom: 25px;
+  }
+  .survey-container h3::after {
+    content: '';
+    display: block;
+    width: 50px;
+    height: 3px;
+    background-color: var(--accent);
+    border-radius: 1.5px;
+    margin: 12px auto 0 auto;
+  }
+  .survey-question-area {
+    margin-bottom: 30px; /* Kaynak koddaki margin */
+  }
+  .survey-question {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.05rem;
+    color: var(--muted);
+    margin-bottom: 20px;
+    line-height: 1.65;
+    min-height: 50px;
+  }
+  .survey-options {
+    list-style: none;
+    padding: 0;
+    margin: 0 auto;
+    max-width: 520px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .survey-options li button {
+    display: block;
+    width: 100%;
+    padding: 15px 20px;
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 10px;
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.15s ease, box-shadow 0.15s ease;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+  }
+  .survey-options li button:hover:not(:disabled) {
+    background-color: var(--accent-bg);
+    border-color: var(--accent);
+    transform: translateY(-2px) scale(1.01);
+    box-shadow: 0 5px 10px rgba(0,0,0,0.06);
+  }
+  .survey-options li button.selected.correct {
+    background-color: var(--correct-answer-bg);
+    border-color: var(--correct-answer-border);
+    color: #155724;
+  }
+  .survey-options li button.selected.incorrect {
+    background-color: var(--incorrect-answer-bg);
+    border-color: var(--incorrect-answer-border);
+    color: #721c24;
+  }
+  .survey-options li button.correct-option:not(.selected) {
+    background-color: #e2f0d9;
+    border-color: #d6e9c6;
+  }
+  .survey-options li button:disabled {
+    opacity: 0.8;
+    cursor: default;
+  }
+  .survey-options li button:disabled:not(.selected):not(.correct-option) {
+    opacity: 0.6;
+    background-color: #f0f0f0;
+    border-color: #e0e0e0;
+    transform: none;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+  }
+  .survey-feedback-message { /* Kaynak koddaki stil */
+    margin-top: 15px;
     font-size: 0.9rem;
     color: var(--muted);
+    min-height: 40px; /* Geri bildirim alanı için */
     font-weight: 500;
-    overflow: hidden;
-    max-height: 0;
-    opacity: 0;
-    padding-top: 0;
-    padding-bottom: 0;
-    margin-top: 0;
-    transition: max-height 0.35s ease-in-out,
-                opacity 0.35s ease-in-out,
-                padding-top 0.35s ease-in-out,
-                padding-bottom 0.35s ease-in-out,
-                margin-top 0.35s ease-in-out;
+    /* display: none; JS ile yönetilecek */
   }
-  .survey-feedback-message.visible {
-    opacity: 1;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    margin-top: 15px;
-    max-height: 150px; /* Geri bildirim için yeterli bir max-height */
+  .survey-navigation { /* Kaynak koddaki stil */
+    margin-top: 20px;
   }
-
-  .survey-navigation { 
-    margin-top: 20px; /* Bu, buton gizli olsa bile yer kaplar. Butonun kendisini daraltacağız. */
-  }
-  .survey-navigation button#nextQuestionButton { /* ID ile spesifik yapalım */
+  .survey-navigation button { /* Kaynak koddaki genel buton stili */
     background-color: var(--accent);
     color: white;
-    /* padding: 10px 25px; Bu paddingler .visible class'ında olacak */
+    padding: 10px 25px;
     border-radius: 8px;
     font-size: 0.9rem;
     font-weight: 500;
     border: none;
     cursor: pointer;
-    /* Başlangıçta kapalı ve yer kaplamaz */
-    max-height: 0;
-    opacity: 0;
-    padding-top: 0;
-    padding-bottom: 0;
-    overflow: hidden;
-    /* visibility ve opacity geçişleri yerine class ile yöneteceğiz */
-    transition: background-color 0.2s ease, 
-                opacity 0.35s ease-in-out, 
-                max-height 0.35s ease-in-out,
-                padding-top 0.35s ease-in-out,
-                padding-bottom 0.35s ease-in-out;
+    transition: background-color 0.2s ease;
+    /* display: none; JS ile yönetilecek */
   }
-  .survey-navigation button#nextQuestionButton.visible {
-    opacity: 1;
-    max-height: 50px; /* Buton içeriği için yeterli yükseklik */
-    padding-top: 10px;
-    padding-bottom: 10px;
-    padding-left: 25px; /* Orijinal yan paddingler */
-    padding-right: 25px;
-  }
-  .survey-navigation button#nextQuestionButton:hover:not(:disabled) { /* Hover .visible değilken de çalışmaması için */
+  .survey-navigation button:hover:not(:disabled) { /* :not(:disabled) eklendi */
     background-color: #7B1FA2;
   }
-  .survey-navigation button#nextQuestionButton:disabled {
+  .survey-navigation button:disabled {
     background-color: #ccc;
     cursor: not-allowed;
   }
-
-  .survey-progress { font-size: 0.85rem; color: var(--muted); margin-bottom: 15px; }
-  .survey-final-score { font-family: 'Inter', sans-serif; font-size: 1.1rem; color: var(--text); margin-top: 20px; font-weight: 600; }
+  .survey-progress {
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin-bottom: 15px;
+  }
+  .survey-final-score {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.1rem;
+    color: var(--text);
+    margin-top: 20px;
+    font-weight: 600;
+  }
 
   .integrated-cta-section { text-align: center; margin: 40px auto 20px auto; padding: 25px 0; position: relative; }
   .integrated-cta-section::before { content: ''; display: block; width: 70px; height: 2.5px; background-color: var(--accent); opacity: 0.6; margin: 0 auto 30px auto; border-radius: 1px; }
@@ -300,7 +366,7 @@
                     </div>
                 </div>
                 <div class="carousel-slide stat-slide stat-slide-comparison">
-                     <div class="stat-slide-content">
+                    <div class="stat-slide-content">
                         <div class="comparison-pair">
                             <p class="stat-slide-number small">%58</p>
                             <p class="stat-slide-text mini">Kadın, daha az maaş aldığını düşünüyor.</p>
@@ -344,14 +410,16 @@
       <div class="survey-progress" id="surveyProgressText">Soru 1 / 3</div>
       <div class="survey-question-area">
           <p class="survey-question" id="surveyQuestionText"></p>
-          <ul class="survey-options" id="surveyOptionsList"></ul>
+          <ul class="survey-options" id="surveyOptionsList">
+            </ul>
       </div>
-      <div class="survey-feedback-message" id="surveyFeedbackText"></div>
+      <div class="survey-feedback-message" id="surveyFeedbackText" style="display: none;"></div>
       <div class="survey-navigation">
-          <button type="button" id="nextQuestionButton">Sonraki Soru</button> </div>
+          <button type="button" id="nextQuestionButton" style="display: none;">Sonraki Soru</button>
+      </div>
       <div class="survey-final-score" id="surveyFinalScore" style="display: none;"></div>
     </div>
-   
+
     <p id="surveyBasedDynamicText">İş hayatında karşılaşılan bu gibi durumları tanımak ve adlandırmak, onlarla mücadele etmenin ilk adımıdır. Farkındalığınızı test ederek bu konudaki bilginizi ölçebilirsiniz.</p>
 
     <p>Türkçede henüz tam bir karşılığı bulunmayan “mansplaining”, “gaslighting” ve “only woman in the room” gibi kavramların karşılıkları için oylama süreci internet üzerinden devam ediyor.</p>
@@ -386,7 +454,7 @@
     if (!carousel) return;
     const carouselInner = carousel.querySelector('.carousel-inner');
     const carouselControls = carousel.querySelector('.carousel-controls');
-    const carouselSlides = carousel.querySelectorAll('.carousel-slide'); 
+    const carouselSlides = carousel.querySelectorAll('.carousel-slide');
     const totalCarouselSlides = carouselSlides.length;
     if (totalCarouselSlides === 0) return;
     let currentCarouselIndex = 0;
@@ -416,79 +484,148 @@
     let resizeTimeout; window.addEventListener('resize', () => { clearTimeout(resizeTimeout); resizeTimeout = setTimeout(() => { showCarouselSlide(currentCarouselIndex, false); }, 250); });
   }
 
-  // AWARENESS SURVEY SCRIPT
+  // AWARENESS SURVEY SCRIPT (KULLANICININ SAĞLADIĞI "DOĞRU" KODDAN ALINAN JS)
   const surveyContainer = document.getElementById('awarenessSurvey');
   const surveyQuestionTextEl = document.getElementById('surveyQuestionText');
   const surveyOptionsListEl = document.getElementById('surveyOptionsList');
   const surveyFeedbackTextEl = document.getElementById('surveyFeedbackText');
-  const nextQuestionButtonEl = document.getElementById('nextQuestionButton'); // ID ile seçiliyor
+  const nextQuestionButtonEl = document.getElementById('nextQuestionButton');
   const surveyProgressTextEl = document.getElementById('surveyProgressText');
   const surveyFinalScoreEl = document.getElementById('surveyFinalScore');
   const surveyBasedDynamicTextEl = document.getElementById('surveyBasedDynamicText');
-  const surveyQuestions = [ { question: "Bir kişinin kendi akıl sağlığından veya gerçeklik algısından şüphe etmesini sağlamak amacıyla manipüle edilmesi anlamına gelen terim hangisidir?", options: ["Mansplaining", "Gaslighting", "Burnout Gap", "Cam Tavan"], correctAnswer: "Gaslighting", feedback: { correct: "Doğru! Gaslighting, mağdurun kendi hafızasına, algısına ve akıl sağlığına olan güvenini sarsmayı hedefler.", incorrect: "Yanlış cevap. Bu tanım Gaslighting'e aittir." } }, { question: "Bir erkeğin, genellikle bir kadına, zaten bildiği bir konuyu küçümseyici veya ataerkil bir tavırla açıklaması durumuna ne denir?", options: ["Gaslighting", "Cam Tavan", "Mansplaining", "Empati Yoksunluğu"], correctAnswer: "Mansplaining", feedback: { correct: "Kesinlikle doğru! Mansplaining, genellikle bilgiçlik taslayan ve cinsiyetçi bir yaklaşımdır.", incorrect: "Tam değil. Bu durum Mansplaining olarak adlandırılır." } }, { question: "Kadınların ve azınlıkların kariyerlerinde yükselmelerini engelleyen görünmez, yapay engelleri ifade eden terim hangisidir?", options: ["Burnout Gap", "Mansplaining", "Toksik Pozitiflik", "Cam Tavan (Glass Ceiling)"], correctAnswer: "Cam Tavan (Glass Ceiling)", feedback: { correct: "Harika! Cam Tavan, görünmez engelleri tanımlar.", incorrect: "Doğru değil. Bu kavram Cam Tavan (Glass Ceiling) olarak bilinir." } } ];
-  let currentQuestionIndex = 0; let score = 0; let answerSelected = false;
-  
+
+  const surveyQuestions = [
+    {
+        question: "Bir kişinin kendi akıl sağlığından veya gerçeklik algısından şüphe etmesini sağlamak amacıyla manipüle edilmesi anlamına gelen terim hangisidir?",
+        options: ["Mansplaining", "Gaslighting", "Burnout Gap", "Cam Tavan"],
+        correctAnswer: "Gaslighting",
+        feedback: {
+            correct: "Doğru! Gaslighting, mağdurun kendi hafızasına, algısına ve akıl sağlığına olan güvenini sarsmayı hedefler.",
+            incorrect: "Yanlış cevap. Bu tanım Gaslighting'e aittir. Gaslighting, mağdurun kendi hafızasına, algısına ve akıl sağlığına olan güvenini sarsmayı hedefler."
+        }
+    },
+    {
+        question: "Bir erkeğin, genellikle bir kadına, zaten bildiği bir konuyu küçümseyici veya ataerkil bir tavırla açıklaması durumuna ne denir?",
+        options: ["Gaslighting", "Cam Tavan", "Mansplaining", "Empati Yoksunluğu"],
+        correctAnswer: "Mansplaining",
+        feedback: {
+            correct: "Kesinlikle doğru! Mansplaining, genellikle bilgiçlik taslayan ve cinsiyetçi bir yaklaşımdır.",
+            incorrect: "Tam değil. Bu durum Mansplaining olarak adlandırılır. Genellikle bilgiçlik taslayan ve cinsiyetçi bir yaklaşımdır."
+        }
+    },
+    {
+        question: "Kadınların ve azınlıkların kariyerlerinde yükselmelerini engelleyen görünmez, yapay engelleri ifade eden terim hangisidir?",
+        options: ["Burnout Gap", "Mansplaining", "Toksik Pozitiflik", "Cam Tavan (Glass Ceiling)"],
+        correctAnswer: "Cam Tavan (Glass Ceiling)",
+        feedback: {
+            correct: "Harika! Cam Tavan, yetenek ve başarıya rağmen terfilerin önündeki görünmez engelleri tanımlar.",
+            incorrect: "Doğru değil. Bu kavram Cam Tavan (Glass Ceiling) olarak bilinir ve yetenek ve başarıya rağmen terfilerin önündeki görünmez engelleri tanımlar."
+        }
+    }
+  ];
+
+  let currentQuestionIndex = 0;
+  let score = 0;
+  let answerSelected = false;
+
   function loadQuestion() {
     answerSelected = false;
     const currentQuestion = surveyQuestions[currentQuestionIndex];
     surveyQuestionTextEl.textContent = currentQuestion.question;
     surveyOptionsListEl.innerHTML = '';
-    currentQuestion.options.forEach(optionText => { const li = document.createElement('li'); const button = document.createElement('button'); button.type = 'button'; button.textContent = optionText; button.addEventListener('click', () => handleSurveyVote(button, optionText)); li.appendChild(button); surveyOptionsListEl.appendChild(li); });
-    
-    surveyFeedbackTextEl.classList.remove('visible');
-    surveyFeedbackTextEl.style.maxHeight = '0';
-    
-    nextQuestionButtonEl.classList.remove('visible'); // GÜNCELLENDİ
-    nextQuestionButtonEl.style.maxHeight = '0'; // GÜNCELLENDİ
-    
+    currentQuestion.options.forEach(optionText => {
+        const li = document.createElement('li');
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.textContent = optionText;
+        button.addEventListener('click', () => handleSurveyVote(button, optionText));
+        li.appendChild(button);
+        surveyOptionsListEl.appendChild(li);
+    });
+    surveyFeedbackTextEl.style.display = 'none';
+    nextQuestionButtonEl.style.display = 'none';
     surveyProgressTextEl.textContent = `Soru ${currentQuestionIndex + 1} / ${surveyQuestions.length}`;
   }
 
   function handleSurveyVote(clickedButton, selectedOption) {
-    if (answerSelected) return; answerSelected = true;
-    const currentQuestion = surveyQuestions[currentQuestionIndex]; const isCorrect = selectedOption === currentQuestion.correctAnswer;
+    if (answerSelected) return;
+    answerSelected = true;
+
+    const currentQuestion = surveyQuestions[currentQuestionIndex];
+    const isCorrect = selectedOption === currentQuestion.correctAnswer;
+
     clickedButton.classList.add('selected');
-    if (isCorrect) { score++; clickedButton.classList.add('correct'); surveyFeedbackTextEl.textContent = currentQuestion.feedback.correct; surveyFeedbackTextEl.style.color = '#155724'; }
-    else { clickedButton.classList.add('incorrect'); surveyFeedbackTextEl.textContent = currentQuestion.feedback.incorrect; surveyFeedbackTextEl.style.color = '#721c24'; surveyOptionsListEl.querySelectorAll('button').forEach(btn => { if (btn.textContent === currentQuestion.correctAnswer) { btn.classList.add('correct-option'); } }); }
+    if (isCorrect) {
+        score++;
+        clickedButton.classList.add('correct');
+        surveyFeedbackTextEl.textContent = currentQuestion.feedback.correct;
+        surveyFeedbackTextEl.style.color = '#155724'; // Koyu yeşil
+    } else {
+        clickedButton.classList.add('incorrect');
+        surveyFeedbackTextEl.textContent = currentQuestion.feedback.incorrect;
+        surveyFeedbackTextEl.style.color = '#721c24'; // Koyu kırmızı
+        surveyOptionsListEl.querySelectorAll('button').forEach(btn => {
+            if (btn.textContent === currentQuestion.correctAnswer) {
+                btn.classList.add('correct-option');
+            }
+        });
+    }
+
     surveyOptionsListEl.querySelectorAll('button').forEach(btn => btn.disabled = true);
-    
-    surveyFeedbackTextEl.classList.add('visible');
-    // max-height CSS'deki .visible sınıfından gelecek (150px)
-    
-    nextQuestionButtonEl.classList.add('visible'); // GÜNCELLENDİ
-    // max-height CSS'deki .visible sınıfından gelecek (50px)
-
-    if (currentQuestionIndex === surveyQuestions.length - 1) { nextQuestionButtonEl.textContent = 'Sonuçları Gör'; } else { nextQuestionButtonEl.textContent = 'Sonraki Soru'; }
+    surveyFeedbackTextEl.style.display = 'block'; // Geri bildirimi göster
+    nextQuestionButtonEl.style.display = 'inline-block'; // Butonu göster
+    if (currentQuestionIndex === surveyQuestions.length - 1) {
+        nextQuestionButtonEl.textContent = 'Sonuçları Gör';
+    } else {
+        nextQuestionButtonEl.textContent = 'Sonraki Soru';
+    }
   }
 
-  nextQuestionButtonEl.addEventListener('click', () => { currentQuestionIndex++; if (currentQuestionIndex < surveyQuestions.length) { loadQuestion(); } else { showFinalResults(); } });
-  
+  nextQuestionButtonEl.addEventListener('click', () => {
+    currentQuestionIndex++;
+    if (currentQuestionIndex < surveyQuestions.length) {
+        loadQuestion();
+    } else {
+        showFinalResults();
+    }
+  });
+
   function showFinalResults() {
-    surveyQuestionTextEl.style.display = 'none'; surveyOptionsListEl.style.display = 'none';
-    
-    surveyFeedbackTextEl.classList.remove('visible');
-    surveyFeedbackTextEl.style.maxHeight = '0';
-
-    nextQuestionButtonEl.classList.remove('visible'); // GÜNCELLENDİ
-    nextQuestionButtonEl.style.maxHeight = '0'; // GÜNCELLENDİ
-
+    surveyQuestionTextEl.style.display = 'none';
+    surveyOptionsListEl.style.display = 'none';
+    surveyFeedbackTextEl.style.display = 'none';
+    nextQuestionButtonEl.style.display = 'none';
     surveyProgressTextEl.style.display = 'none';
-    surveyFinalScoreEl.innerHTML = `Test Tamamlandı! ${surveyQuestions.length} sorudan <strong>${score}</strong> tanesini doğru bildiniz.`; surveyFinalScoreEl.style.display = 'block';
-    let dynamicText = ""; const campaignLink = "<a href='https://tr.kariyer.net/adinikoyalim/' target='_blank' rel='noopener noreferrer' style='color: var(--accent); font-weight: bold;'>'Adını Koyalım'</a>";
-    if (score === 3) { dynamicText = `Vay canına, hepsini bildin! Bu konulara hakim olduğun belli. Bilgini daha ileri taşımak ve ${campaignLink} kampanyasıyla farkındalık hareketine katılmak istersen, tam zamanı!`; }
-    else if (score === 2) { dynamicText = `Harika gidiyorsun, çoğunu doğru bildin! Bu konularda epey bilinçlisin. ${campaignLink} kampanyasına göz atarak hem bilgilerini pekiştirebilir hem de bu önemli mücadeleye destek olabilirsin.`; }
-    else if (score === 1) { dynamicText = `Güzel başlangıç! Birkaç doğru cevabın var. Merakını canlı tut ve ${campaignLink} kampanyasıyla bu kavramların dünyasına daha derin bir dalış yap. Öğrendikçe farkındalığın artacak!`; }
-    else { dynamicText = `Hiç sorun değil, öğrenmek için buradayız! Bu terimler günlük hayatta sıkça karşımıza çıkmasa da etkileri büyük. ${campaignLink} kampanyası, bu kavramları keşfetmek ve farkındalığını artırmak için harika bir kaynak.`; }
-    surveyBasedDynamicTextEl.innerHTML = dynamicText; surveyBasedDynamicTextEl.style.fontWeight = 'normal'; surveyBasedDynamicTextEl.style.color = 'var(--muted)';
+
+    surveyFinalScoreEl.innerHTML = `Test Tamamlandı! ${surveyQuestions.length} sorudan <strong>${score}</strong> tanesini doğru bildiniz.`;
+    surveyFinalScoreEl.style.display = 'block';
+
+    let dynamicText = "";
+    const campaignLink = "<a href='https://tr.kariyer.net/adinikoyalim/' target='_blank' rel='noopener noreferrer' style='color: var(--accent); font-weight: bold;'>'Adını Koyalım'</a>";
+    if (score === 3) {
+        dynamicText = `Vay canına, hepsini bildin! Bu konulara hakim olduğun belli. Bilgini daha ileri taşımak ve ${campaignLink} kampanyasıyla farkındalık hareketine katılmak istersen, tam zamanı!`;
+    } else if (score === 2) {
+        dynamicText = `Harika gidiyorsun, çoğunu doğru bildin! Bu konularda epey bilinçlisin. ${campaignLink} kampanyasına göz atarak hem bilgilerini pekiştirebilir hem de bu önemli mücadeleye destek olabilirsin.`;
+    } else if (score === 1) {
+        dynamicText = `Güzel başlangıç! Birkaç doğru cevabın var. Merakını canlı tut ve ${campaignLink} kampanyasıyla bu kavramların dünyasına daha derin bir dalış yap. Öğrendikçe farkındalığın artacak!`;
+    } else {
+        dynamicText = `Hiç sorun değil, öğrenmek için buradayız! Bu terimler günlük hayatta sıkça karşımıza çıkmasa da etkileri büyük. ${campaignLink} kampanyası, bu kavramları keşfetmek ve farkındalığını artırmak için harika bir kaynak.`;
+    }
+    surveyBasedDynamicTextEl.innerHTML = dynamicText;
+    surveyBasedDynamicTextEl.style.fontWeight = 'normal';
+    surveyBasedDynamicTextEl.style.color = 'var(--muted)';
   }
-  
-  // Başlangıçta butonun gizli olmasını loadQuestion() hallediyor.
-  
-  if (surveyContainer) { loadQuestion(); }
-  else { if(surveyBasedDynamicTextEl) surveyBasedDynamicTextEl.textContent = "İş hayatında karşılaşılan çeşitli durumları tanımak ve adlandırmak, onlarla mücadele etmenin ilk adımıdır."; }
+
+  if (surveyContainer) {
+    loadQuestion();
+  } else {
+    if(surveyBasedDynamicTextEl) surveyBasedDynamicTextEl.textContent = "İş hayatında karşılaşılan çeşitli durumları tanımak ve adlandırmak, onlarla mücadele etmenin ilk adımıdır.";
+  }
 
   document.addEventListener('DOMContentLoaded', () => {
     initializeCarousel('statsCarousel');
+    // Kaynak kodda carousel başlatma yorum satırıydı, burada tekrar aktif edildi.
+    // Ancak anketin başlatılması (loadQuestion) zaten global scope'da çağrılıyor if (surveyContainer) kontrolü ile.
   });
 </script>
 </body>
