@@ -1,0 +1,589 @@
+<!DOCTYPE html><html lang="tr-TR"><head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bu 8 Mart’ta Konuşulmayanların Adını Koyalım</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+  :root {
+    --bg: #fefefe;
+    --text: #111827;
+    --muted: #6b7280;
+    --accent: #8A2BE2; /* Ana Mor */
+    --accent-bg: #E6E6FA; /* Açık Lavanta Moru */
+    --font: 'Roboto', sans-serif;
+    --carousel-accent-light: #E6E6FA; /* Carousel için açık arka plan */
+    --carousel-text: #1f2937;
+    --carousel-radius: 12px;
+    --correct-answer-bg: #d4edda; /* Açık Yeşil - Doğru Cevap */
+    --correct-answer-border: #c3e6cb;
+    --incorrect-answer-bg: #f8d7da; /* Açık Kırmızı - Yanlış Cevap */
+    --incorrect-answer-border: #f5c6cb;
+  }
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text);
+    font-size: 1.05rem;
+    line-height: 1.75;
+  }
+  .progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 4px;
+    width: 0;
+    background: linear-gradient(to right, #D8BFD8, var(--accent)); /* Mor Gradient */
+    border-radius: 2px;
+    box-shadow: 0 0 6px rgba(138, 43, 226, 0.3);
+    z-index: 1001;
+    transition: width 0.25s ease-out;
+  }
+  .container {
+    max-width: 680px;
+    margin: 20px auto;
+    padding: 16px 24px 32px;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+    position: relative;
+  }
+  h1, h2 {
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 24px;
+  }
+  h1 {
+    font-size: 2.25rem;
+    font-family: 'Playfair Display', serif;
+    color: var(--text);
+  }
+  h2 {
+    font-size: 1.5rem;
+    margin-top: 48px;
+    font-family: 'Playfair Display', serif;
+    color: var(--text);
+  }
+  p {
+    margin-bottom: 20px;
+    color: var(--muted);
+    font-family: 'Inter', sans-serif;
+  }
+  p strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+  .highlighted-benefit {
+    background-color: var(--accent-bg);
+    color: #6A0DAD; /* Vurgu arka planı üzerinde koyu vurgu rengi */
+    padding: 2px 5px;
+    border-radius: 4px;
+    font-weight: 600;
+  }
+
+  ul {
+    margin-bottom: 20px;
+    padding-left: 20px;
+    color: var(--muted);
+    font-family: 'Inter', sans-serif;
+  }
+  ul li {
+    margin-bottom: 8px;
+    line-height: 1.6;
+  }
+
+  .article-meta {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    color: var(--muted);
+    margin-bottom: 24px;
+  }
+  .article-meta .author {
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .image-block {
+    margin: 32px 0;
+  }
+  .image-block img {
+    width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  }
+  .caption {
+    text-align: center;
+    font-size: 0.875rem;
+    color: #9ca3af;
+    margin-top: 8px;
+    font-family: 'Inter', sans-serif;
+  }
+  .button {
+    background-color: var(--accent);
+    color: white;
+    padding: 12px 32px;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    text-decoration: none;
+    box-shadow: 0 2px 6px rgba(138, 43, 226, 0.2); /* Mor gölge */
+    transition: all 0.3s ease;
+    display: inline-block;
+  }
+  .button:hover {
+    background-color: #7B1FA2; /* Koyu mor */
+  }
+
+  /* ANKET STİLLERİ */
+  .survey-container {
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: var(--carousel-radius);
+    padding: 35px 25px 30px 25px;
+    margin: 48px 0;
+    text-align: center;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+    position: relative;
+  }
+  .survey-sponsor {
+    position: absolute;
+    top: 18px;
+    right: 22px;
+  }
+  .survey-sponsor img {
+    max-width: 70px; /* Logo boyutu ayarlandı */
+    height: auto;
+    display: block;
+    border-radius: 8px;
+  }
+  .survey-container h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.7rem;
+    color: var(--text);
+    font-weight: 700;
+    position: relative;
+    padding-bottom: 12px;
+    margin-top: 0;
+    margin-bottom: 25px;
+  }
+  .survey-container h3::after {
+    content: '';
+    display: block;
+    width: 50px;
+    height: 3px;
+    background-color: var(--accent);
+    border-radius: 1.5px;
+    margin: 12px auto 0 auto; /* H3'ün altına kaydırıldı */
+  }
+  .survey-question-area {
+    margin-bottom: 30px;
+  }
+  .survey-question {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.05rem;
+    color: var(--muted);
+    margin-bottom: 20px;
+    line-height: 1.65;
+    min-height: 50px; /* Soru metni alanı için */
+  }
+  .survey-options {
+    list-style: none;
+    padding: 0;
+    margin: 0 auto;
+    max-width: 520px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .survey-options li button {
+    display: block;
+    width: 100%;
+    padding: 15px 20px;
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 10px;
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.15s ease, box-shadow 0.15s ease;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+  }
+  .survey-options li button:hover:not(:disabled) {
+    background-color: var(--accent-bg);
+    border-color: var(--accent);
+    transform: translateY(-2px) scale(1.01);
+    box-shadow: 0 5px 10px rgba(0,0,0,0.06);
+  }
+  .survey-options li button.selected.correct {
+    background-color: var(--correct-answer-bg);
+    border-color: var(--correct-answer-border);
+    color: #155724;
+  }
+  .survey-options li button.selected.incorrect {
+    background-color: var(--incorrect-answer-bg);
+    border-color: var(--incorrect-answer-border);
+    color: #721c24;
+  }
+  .survey-options li button.correct-option:not(.selected) { /* Cevap gösterilirken doğru olan ama seçilmeyen */
+    background-color: #e2f0d9;
+    border-color: #d6e9c6;
+  }
+  .survey-options li button:disabled { /* Genel pasif stil, seçilmiş olsun veya olmasın */
+    opacity: 0.8;
+    cursor: default;
+  }
+  .survey-options li button:disabled:not(.selected):not(.correct-option) { /* Cevap gösterildikten sonra diğer pasif seçenekler */
+     opacity: 0.6;
+     background-color: #f0f0f0;
+     border-color: #e0e0e0;
+     transform: none;
+     box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+  }
+  .survey-feedback-message {
+    margin-top: 15px;
+    font-size: 0.9rem;
+    color: var(--muted);
+    min-height: 40px; /* Geri bildirim alanı için */
+    font-weight: 500;
+  }
+  .survey-navigation {
+    margin-top: 20px;
+  }
+  .survey-navigation button {
+    background-color: var(--accent);
+    color: white;
+    padding: 10px 25px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  .survey-navigation button:hover {
+    background-color: #7B1FA2; /* Koyu mor */
+  }
+  .survey-navigation button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  .survey-progress {
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin-bottom: 15px;
+  }
+  .survey-final-score {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.1rem;
+    color: var(--text);
+    margin-top: 20px;
+    font-weight: 600;
+  }
+
+  /* AKICI CTA BÖLÜMÜ STİLLERİ */
+  .integrated-cta-section {
+    text-align: center;
+    margin: 40px auto 20px auto;
+    padding: 25px 0;
+    position: relative;
+  }
+  .integrated-cta-section::before {
+    content: '';
+    display: block;
+    width: 70px;
+    height: 2.5px;
+    background-color: var(--accent);
+    opacity: 0.6;
+    margin: 0 auto 30px auto;
+    border-radius: 1px;
+  }
+  .integrated-cta-section .cta-final-text {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.18rem;
+    line-height: 1.85;
+    color: var(--text);
+    margin-bottom: 30px;
+    max-width: 620px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .integrated-cta-section .cta-final-text strong {
+    color: var(--accent); /* CTA metnindeki strong da yeni renkte */
+    font-weight: 600;
+  }
+  .integrated-cta-section .button {
+    padding: 14px 40px;
+    font-size: 1.05rem;
+  }
+  .source-info {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-top: 20px;
+    line-height: 1.5;
+  }
+  .source-info a {
+    color: var(--accent); /* Kaynak linkleri de yeni renkte */
+    text-decoration: none;
+  }
+  .source-info a:hover {
+    text-decoration: underline;
+  }
+  .main-logo {
+    border-radius: 8px; /* Yuvarlatılmış hatlar için ana logo */
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    h1 { font-size: 1.8rem; }
+    h2 { font-size: 1.3rem; }
+    .container { padding: 16px 16px 24px; }
+    .survey-container { padding: 25px 15px 20px 15px; }
+    .survey-sponsor img { max-width: 50px; top:10px; right: 10px;}
+  }
+  </style></head><body>
+  <div class="progress-bar" id="progressBar"></div>
+  <div class="container">
+    <h1>Bu 8 Mart’ta konuşulmayanların adını koyalım</h1>
+    <div style="display: flex; align-items: center; gap: 8px; margin: 8px 0 16px 0;">
+      <div style="max-width: 120px; max-height: 50px; display: flex; align-items: center;">
+        <img src="https://static.bundle.app/studio/d2123e0e-e627-407c-b6f8-10a3e54fa649/c0119827-7d74-4334-8b00-2a81d0adb17e.png" alt="Kariyer.net Logo" style="max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 8px;" class="main-logo">
+      </div>
+      <span style="font-size: 0.88rem; color: #4b5563; font-weight: 500;">Kariyer.net sponsorluğunda</span>
+    </div>
+
+    <div class="article-meta">
+        Yazar: <span class="author">Eylül Naz Baklacı</span> | Yayın Tarihi: <span class="date">8 Mart 2025</span>
+    </div>
+
+    <p>Bugün 8 Mart Dünya Kadınlar Günü. 1857 yılında ABD’deki işçi kadınların meşalesini yaktığı bugün, 1921 yılından beri tüm dünyada kadınların eşitsizliklere hep beraber ses çıkardıkları, hak ve özgürlük mücadelelerini taçlandırdıkları bir gün olarak kutlanıyor.</p>
+    <p>Kadınlar toplumsal, ekonomik, kültürel ve siyasi alanlarda cinsiyet eşitsizliğine karşı mücadele verirken <strong>iş hayatındaki cinsiyet eşitsizliği</strong>, bu mücadelede önemli bir odak noktası olmaya devam ediyor.</p>
+
+    <div class="image-block">
+      <img src="https://static.bundle.app/studio/0417e36d-7f85-4288-9988-1de3e307da45/0b844692-5350-46ed-84b9-319f467f5751.png" alt="Dünya Kadınlar Gününde İş Hayatında Eşitlik">
+      <div class="caption">Kadınların iş hayatındaki mücadelesi ve eşitlik arayışı devam ediyor.</div>
+    </div>
+
+    <p>Kadınların iş hayatında yaşadıkları değersizlik, çekingenlik, tükenmişlik ya da haksızlık hisleri; bazen oldukça kişisel ve tanımlanamaz gibi görünse de çoğunlukla ortak deneyimlere işaret ediyor.</p>
+    <p>Sosyal medyada sıkça önümüze çıkan <strong>“mansplaining”</strong>, <strong>“gaslighting”</strong>, <strong>“burnout gap”</strong>, <strong>“glass ceiling”</strong> gibi ayrımcılıkları ifade eden terimler Türkçede karşılık bulamadıkça bunlara karşı mücadele etmek zorlaşıyor.</p>
+
+    <h2>Mücadele kelimelerde saklı</h2>
+    <p>Aynı pozisyona başvuran bir erkek ve bir kadın düşünün. İşten beklentileri, görüşmeler sırasında cevapladıkları sorular, kariyer planlarını çizerken temel aldıkları ölçütler ne kadar benzer?</p>
+    <p>Kadınların medeni durumu, çocuk sahibi olup olmaması, gelecek planları gibi özel hayatına dair konular iş başvurularında belirleyici rol oynarken erkekler çoğunlukla bu sorularla karşılaşmıyor.</p>
+    <p>Erkeklerle aynı yeteneklere ve potansiyellere sahip olsalar da kadınlar genellikle <strong>daha düşük maaşlarla çalışıyor, liderlik pozisyonlarında daha az yer alıyor</strong> ve işyerinde cinsiyet temelli ayrımcılığa uğruyorlar.</p>
+    <p>Bu eşitsizlik, işgücüne katılımın önündeki engellerden, terfi fırsatlarına; iş yerindeki güvenlikten, ücret farklarına kadar birçok alanda kendini gösteriyor.</p>
+
+    <h2>Kadınların maaş beklentileri %19 daha az</h2>
+    <p>Kariyer.net’in araştırmasına göre, Türkiye’de kadınların %36'sı kendilerine sunulan kariyer fırsatlarının erkeklere sunulanlardan daha az olduğunu düşünüyor.</p>
+    <p>2024 yılında Kariyer.net havuzundaki 1,6 milyon iş başvurusuna dayanarak yapılan bir analiz, kadınların ortalama maaş beklentisinin <strong>erkeklere kıyasla %10 daha az</strong> olduğunu gösterdi. 2025 yılında 10 milyondan fazla maaş beklentisini temel alan bu analiz, beklentiler arasındaki farkın daha da artarak %19’a yükseldiğini ortaya çıkardı.</p>
+
+    <div class="image-block">
+      <img src="https://static.bundle.app/studio/0417e36d-7f85-4288-9988-1de3e307da45/c3affc30-bbf7-4f43-8986-5c845b226051.png" alt="Maaş Beklentilerinde Cinsiyet Farkı">
+      <div class="caption">Araştırmalar, maaş beklentilerindeki cinsiyet farkını ortaya koyuyor.</div>
+    </div>
+
+    <h2>Erkeklerin %80’i kadınların daha az maaş aldığını düşünmüyor</h2>
+    <p>Erkeklerin aynı ofisi, odayı, fabrikayı paylaştıkları kadınların yeterliliklerine dair tutumları da iş hayatındaki cinsiyet eşitsizliğini yeniden ürettiklerini gösteriyor.</p>
+    <p>Kadınların <strong>%58'i</strong> erkeklerden daha az maaş aldığını düşünürken, erkeklerin %80'i buna katılmıyor.</p>
+    <p>Erkeklerin %21'i ise iş yerinde kadınların bazı konseptleri bilmediğini düşünerek onlara daha fazla açıklama yapmaya gerek duyduğunu belirtiyor.</p>
+    <p>Kadınların <strong>%38'i</strong> iş hayatında "duygusal, fazla tepki veren, sinirli" gibi etiketlemelere maruz kaldıklarını ifade ediyor.</p>
+
+    <h2>Adını beraber koyalım</h2>
+    <p>Kariyer.net, bu verilerden yola çıkarak iş hayatında cinsiyet eşitsizliğini ortadan kaldırmaya yönelik bir kampanya başlattı. <strong>“Adını Koyalım”</strong> kampanyası, kadınların iş hayatında bazen adını koyamadıkları ayrımcılıkları beraber adlandırabilmek ve bunlara karşı mücadele etmek için farkındalık oluşturuyor.</p>
+
+    <div class="survey-container" id="awarenessSurvey">
+      <div class="survey-sponsor">
+        <img src="https://static.bundle.app/studio/d2123e0e-e627-407c-b6f8-10a3e54fa649/c0119827-7d74-4334-8b00-2a81d0adb17e.png" alt="Kariyer.net Logo">
+      </div>
+      <h3>Kavram Bilgi Testi</h3>
+      <div class="survey-progress" id="surveyProgressText">Soru 1 / 3</div>
+      <div class="survey-question-area">
+          <p class="survey-question" id="surveyQuestionText"></p>
+          <ul class="survey-options" id="surveyOptionsList">
+              </ul>
+      </div>
+      <div class="survey-feedback-message" id="surveyFeedbackText" style="display: none;"></div>
+      <div class="survey-navigation">
+          <button type="button" id="nextQuestionButton" style="display: none;">Sonraki Soru</button>
+      </div>
+      <div class="survey-final-score" id="surveyFinalScore" style="display: none;"></div>
+    </div>
+    
+    <p id="surveyBasedDynamicText">İş hayatında karşılaşılan bu gibi durumları tanımak ve adlandırmak, onlarla mücadele etmenin ilk adımıdır. Farkındalığınızı test ederek bu konudaki bilginizi ölçebilirsiniz.</p>
+
+    <p>Türkçede henüz tam bir karşılığı bulunmayan “mansplaining”, “gaslighting” ve “only woman in the room” gibi kavramların karşılıkları için <strong>oylama süreci internet üzerinden devam ediyor.</strong></p>
+
+    <h2>Yazı sponsorumuz Kariyer.net’ten!</h2>
+    <p>Kariyer.net, <strong class="highlighted-benefit">iş hayatında cinsiyet eşitliği</strong> için farkındalık yaratmayı amaçlıyor. 'Adını Koyalım' kampanyası ile <strong class="highlighted-benefit">ayrımcılık türlerine Türkçe karşılıklar</strong> bularak mücadelenin önemli bir parçası oluyor. <strong class="highlighted-benefit">Daha bilinçli bir toplum</strong> ve <strong class="highlighted-benefit">eşitlikçi bir iş dünyası</strong> için Kariyer.net yanımızda! Unutmayın, <strong class="highlighted-benefit">bilgi güçtür</strong> ve bu terimleri öğrenmek, daha adil bir çalışma ortamı yaratmaya katkıda bulunur.</p>
+
+    <div class="source-info">
+        Referanslar ve Daha Fazla Bilgi:<br>
+        1. Kariyer.net - Adını Koyalım Kampanyası. <a href="https://tr.kariyer.net/adinikoyalim/" target="_blank" rel="noopener noreferrer">https://tr.kariyer.net/adinikoyalim/</a> (E.T.: 24.05.2025)<br>
+        2. Metinde bahsi geçen istatistikler Kariyer.net araştırmalarına dayanmaktadır.
+    </div>
+
+    <div class="integrated-cta-section">
+      <p class="cta-final-text">İş hayatındaki cinsiyet eşitsizliğine karşı farkındalığınızı artırmak ve 'Adını Koyalım' kampanyasına destek olmak için <strong>Kariyer.net</strong>'in sunduğu kaynakları keşfedin. Daha adil bir gelecek için harekete geçin!</p>
+      <a class="button" href="https://tr.kariyer.net/adinikoyalim/" target="_blank">Hemen Keşfet</a>
+    </div>
+  </div><script>
+  // Progress Bar Script
+  const progressBar = document.getElementById('progressBar');
+  window.addEventListener('scroll', () => {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const scrollPercent = (scrollTop / docHeight) * 100;
+    progressBar.style.width = `${scrollPercent}%`;
+  });
+
+  // AWARENESS SURVEY SCRIPT
+  const surveyContainer = document.getElementById('awarenessSurvey');
+  const surveyQuestionTextEl = document.getElementById('surveyQuestionText');
+  const surveyOptionsListEl = document.getElementById('surveyOptionsList');
+  const surveyFeedbackTextEl = document.getElementById('surveyFeedbackText');
+  const nextQuestionButtonEl = document.getElementById('nextQuestionButton');
+  const surveyProgressTextEl = document.getElementById('surveyProgressText');
+  const surveyFinalScoreEl = document.getElementById('surveyFinalScore');
+  const surveyBasedDynamicTextEl = document.getElementById('surveyBasedDynamicText');
+
+  const surveyQuestions = [
+    {
+        question: "Bir kişinin kendi akıl sağlığından veya gerçeklik algısından şüphe etmesini sağlamak amacıyla manipüle edilmesi anlamına gelen terim hangisidir?",
+        options: ["Mansplaining", "Gaslighting", "Burnout Gap", "Cam Tavan"],
+        correctAnswer: "Gaslighting",
+        feedback: {
+            correct: "Doğru! Gaslighting, mağdurun kendi hafızasına, algısına ve akıl sağlığına olan güvenini sarsmayı hedefler.",
+            incorrect: "Yanlış cevap. Bu tanım Gaslighting'e aittir. Gaslighting, mağdurun kendi hafızasına, algısına ve akıl sağlığına olan güvenini sarsmayı hedefler."
+        }
+    },
+    {
+        question: "Bir erkeğin, genellikle bir kadına, zaten bildiği bir konuyu küçümseyici veya ataerkil bir tavırla açıklaması durumuna ne denir?",
+        options: ["Gaslighting", "Cam Tavan", "Mansplaining", "Empati Yoksunluğu"],
+        correctAnswer: "Mansplaining",
+        feedback: {
+            correct: "Kesinlikle doğru! Mansplaining, genellikle bilgiçlik taslayan ve cinsiyetçi bir yaklaşımdır.",
+            incorrect: "Tam değil. Bu durum Mansplaining olarak adlandırılır. Genellikle bilgiçlik taslayan ve cinsiyetçi bir yaklaşımdır."
+        }
+    },
+    {
+        question: "Kadınların ve azınlıkların kariyerlerinde yükselmelerini engelleyen görünmez, yapay engelleri ifade eden terim hangisidir?",
+        options: ["Burnout Gap", "Mansplaining", "Toksik Pozitiflik", "Cam Tavan (Glass Ceiling)"],
+        correctAnswer: "Cam Tavan (Glass Ceiling)",
+        feedback: {
+            correct: "Harika! Cam Tavan, yetenek ve başarıya rağmen terfilerin önündeki görünmez engelleri tanımlar.",
+            incorrect: "Doğru değil. Bu kavram Cam Tavan (Glass Ceiling) olarak bilinir ve yetenek ve başarıya rağmen terfilerin önündeki görünmez engelleri tanımlar."
+        }
+    }
+  ];
+
+  let currentQuestionIndex = 0;
+  let score = 0;
+  let answerSelected = false;
+
+  function loadQuestion() {
+    answerSelected = false;
+    const currentQuestion = surveyQuestions[currentQuestionIndex];
+    surveyQuestionTextEl.textContent = currentQuestion.question;
+    surveyOptionsListEl.innerHTML = '';
+    currentQuestion.options.forEach(optionText => {
+        const li = document.createElement('li');
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.textContent = optionText;
+        button.addEventListener('click', () => handleSurveyVote(button, optionText));
+        li.appendChild(button);
+        surveyOptionsListEl.appendChild(li);
+    });
+    surveyFeedbackTextEl.style.display = 'none';
+    nextQuestionButtonEl.style.display = 'none';
+    surveyProgressTextEl.textContent = `Soru ${currentQuestionIndex + 1} / ${surveyQuestions.length}`;
+  }
+
+  function handleSurveyVote(clickedButton, selectedOption) {
+    if (answerSelected) return;
+    answerSelected = true;
+
+    const currentQuestion = surveyQuestions[currentQuestionIndex];
+    const isCorrect = selectedOption === currentQuestion.correctAnswer;
+
+    clickedButton.classList.add('selected');
+    if (isCorrect) {
+        score++;
+        clickedButton.classList.add('correct');
+        surveyFeedbackTextEl.textContent = currentQuestion.feedback.correct;
+        surveyFeedbackTextEl.style.color = '#155724'; // Koyu yeşil
+    } else {
+        clickedButton.classList.add('incorrect');
+        surveyFeedbackTextEl.textContent = currentQuestion.feedback.incorrect;
+        surveyFeedbackTextEl.style.color = '#721c24'; // Koyu kırmızı
+        // Highlight correct answer
+        surveyOptionsListEl.querySelectorAll('button').forEach(btn => {
+            if (btn.textContent === currentQuestion.correctAnswer) {
+                btn.classList.add('correct-option');
+            }
+        });
+    }
+
+    surveyOptionsListEl.querySelectorAll('button').forEach(btn => btn.disabled = true);
+    surveyFeedbackTextEl.style.display = 'block';
+    nextQuestionButtonEl.style.display = 'inline-block';
+    if (currentQuestionIndex === surveyQuestions.length - 1) {
+        nextQuestionButtonEl.textContent = 'Sonuçları Gör';
+    } else {
+        nextQuestionButtonEl.textContent = 'Sonraki Soru';
+    }
+  }
+
+  nextQuestionButtonEl.addEventListener('click', () => {
+    currentQuestionIndex++;
+    if (currentQuestionIndex < surveyQuestions.length) {
+        loadQuestion();
+    } else {
+        showFinalResults();
+    }
+  });
+
+  function showFinalResults() {
+    surveyQuestionTextEl.style.display = 'none';
+    surveyOptionsListEl.style.display = 'none';
+    surveyFeedbackTextEl.style.display = 'none';
+    nextQuestionButtonEl.style.display = 'none';
+    surveyProgressTextEl.style.display = 'none';
+
+    surveyFinalScoreEl.innerHTML = `Test Tamamlandı! ${surveyQuestions.length} sorudan <strong>${score}</strong> tanesini doğru bildiniz.`;
+    surveyFinalScoreEl.style.display = 'block';
+
+    let dynamicText = "";
+    if (score === 3) {
+        dynamicText = "Harika! Bu konularda oldukça bilgilisiiniz. Bilginizle bu mücadelenin bir parçası olmak ve <a href='https://tr.kariyer.net/adinikoyalim/' target='_blank' rel='noopener noreferrer' style='color: var(--accent); font-weight: bold;'>'Adını Koyalım'</a> kampanyasına destek olmak ister misiniz?";
+    } else if (score === 2) {
+        dynamicText = "Çok iyi! Birçok kavramı doğru biliyorsunuz. Farkındalığınızı daha da artırarak ve <a href='https://tr.kariyer.net/adinikoyalim/' target='_blank' rel='noopener noreferrer' style='color: var(--accent); font-weight: bold;'>'Adını Koyalım'</a> kampanyasını inceleyerek bu mücadeleye katkıda bulunabilirsiniz.";
+    } else if (score === 1) {
+        dynamicText = "Fena değil! Bazı kavramları doğru bildiniz. <a href='https://tr.kariyer.net/adinikoyalim/' target='_blank' rel='noopener noreferrer' style='color: var(--accent); font-weight: bold;'>'Adını Koyalım'</a> kampanyası ile bu terimler hakkında daha fazla bilgi edinerek farkındalığınızı artırabilirsiniz.";
+    } else {
+        dynamicText = "Öğrenmek için harika bir fırsat! İş hayatındaki bu önemli kavramları <a href='https://tr.kariyer.net/adinikoyalim/' target='_blank' rel='noopener noreferrer' style='color: var(--accent); font-weight: bold;'>'Adını Koyalım'</a> kampanyasıyla keşfederek farkındalığınızı artırabilirsiniz.";
+    }
+    surveyBasedDynamicTextEl.innerHTML = dynamicText; // Changed to innerHTML to support the link
+    surveyBasedDynamicTextEl.style.fontWeight = 'normal'; // Reset to normal as bold is in link
+    surveyBasedDynamicTextEl.style.color = 'var(--muted)'; // Keep consistent with other p tags
+
+  }
+
+  if (surveyContainer) {
+    loadQuestion();
+  } else {
+    // Fallback for the dynamic text if survey isn't on page for some reason
+    surveyBasedDynamicTextEl.textContent = "İş hayatında karşılaşılan çeşitli durumları tanımak ve adlandırmak, onlarla mücadele etmenin ilk adımıdır.";
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    // Carousel initialization was here, now removed.
+  });</script></body></html>
